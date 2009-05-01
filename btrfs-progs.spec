@@ -13,6 +13,7 @@ Source0:        http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:  e2fsprogs-devel
+BuildRequires:  zlib1-devel
 
 %description
 The btrfs-progs package provides all the userpsace programs needed to create,
