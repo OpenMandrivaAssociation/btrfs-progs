@@ -11,6 +11,7 @@ URL:            http://btrfs.wiki.kernel.org/index.php/Main_Page
 Source0:        http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
+BuildRequires:  e2fsprogs-devel
 BuildRequires:  libuuid-devel
 BuildRequires:  zlib1-devel
 BuildRequires:  acl-devel
