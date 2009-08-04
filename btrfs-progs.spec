@@ -1,8 +1,8 @@
 %define _root_sbindir	/sbin
 
 Name:           btrfs-progs
-Version:        0.18
-Release:        %mkrel 3
+Version:        0.19
+Release:        %mkrel 1
 Summary:        Userspace programs for btrfs
 
 Group:          System/Kernel and hardware
@@ -24,9 +24,9 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %setup -q
 
 %build
-%make
+%make CFLAGS="%{optflags}"
 # for btrfs-convert
-%make convert
+%make convert CFLAGS="%{optflags}"
 
 %install
 %makeinstall bindir=%{buildroot}/%{_root_sbindir}
@@ -44,5 +44,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_root_sbindir}/btrfs-show
 %{_root_sbindir}/btrfs-vol
 %{_root_sbindir}/btrfs-convert
-%{_root_sbindir}/btrfs-image
-%{_root_sbindir}/btrfstune
+%{_mandir}/man8/btrfs-image.8*
+%{_mandir}/man8/btrfs-show.8*
+%{_mandir}/man8/btrfsck.8*
+%{_mandir}/man8/btrfsctl.8*
+%{_mandir}/man8/mkfs.btrfs.8*
