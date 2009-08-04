@@ -2,7 +2,7 @@
 
 Name:           btrfs-progs
 Version:        0.18
-Release:        %mkrel 2
+Release:        %mkrel 3
 Summary:        Userspace programs for btrfs
 
 Group:          System/Kernel and hardware
