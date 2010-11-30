@@ -16,7 +16,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:  e2fsprogs-devel
 BuildRequires:  libuuid-devel
-BuildRequires:  zlib1-devel
+BuildRequires:  zlib-devel
 BuildRequires:  acl-devel
 
 %description
