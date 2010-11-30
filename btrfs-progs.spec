@@ -3,7 +3,7 @@
 %define snapshot 20100412
 Name:           btrfs-progs
 Version:        0.19
-Release:        %mkrel 1.%{snapshot}.0
+Release:        %mkrel 1.%{snapshot}.1
 Summary:        Userspace programs for btrfs
 
 Group:          System/Kernel and hardware
