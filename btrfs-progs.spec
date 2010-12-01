@@ -1,6 +1,6 @@
 %define _root_sbindir	/sbin
 
-%define snapshot 20100412
+%define snapshot 20101006
 Name:           btrfs-progs
 Version:        0.19
 Release:        %mkrel 1.%{snapshot}.1
@@ -12,7 +12,6 @@ URL:            http://btrfs.wiki.kernel.org/index.php/Main_Page
 #Source0:        http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
 # git archive --prefix=btrfs-progs-0.19/ -o ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar --format tar  HEAD
 Source0:        %{name}-%{version}-%{snapshot}.tar.bz2
-Patch0:		btrfs-progs-0.19-glibc212.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:  e2fsprogs-devel
@@ -26,7 +25,6 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 %make CFLAGS="%{optflags}"
