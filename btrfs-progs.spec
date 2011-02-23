@@ -1,23 +1,23 @@
 %define _root_sbindir	/sbin
 
 %define snapshot 20101006
-Name:           btrfs-progs
-Version:        0.19
-Release:        %mkrel 1.%{snapshot}.1
-Summary:        Userspace programs for btrfs
+Name:		btrfs-progs
+Version:	0.19
+Release:	%mkrel 1.%{snapshot}.2
+Summary:	Userspace programs for btrfs
 
-Group:          System/Kernel and hardware
-License:        GPLv2
-URL:            http://btrfs.wiki.kernel.org/index.php/Main_Page
-#Source0:        http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
+Group:		System/Kernel and hardware
+License:	GPLv2
+URL:		http://btrfs.wiki.kernel.org/index.php/Main_Page
+#Source0:	http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
 # git archive --prefix=btrfs-progs-0.19/ -o ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar --format tar  HEAD
-Source0:        %{name}-%{version}-%{snapshot}.tar.bz2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+Source0:	%{name}-%{version}-%{snapshot}.tar.bz2
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
-BuildRequires:  e2fsprogs-devel
-BuildRequires:  libuuid-devel
-BuildRequires:  zlib-devel
-BuildRequires:  acl-devel
+BuildRequires:	e2fsprogs-devel
+BuildRequires:	libuuid-devel
+BuildRequires:	zlib-devel
+BuildRequires:	acl-devel
 
 %description
 The btrfs-progs package provides all the userpsace programs needed to create,
@@ -32,16 +32,19 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %make convert CFLAGS="%{optflags}"
 
 %install
+rm -rf %{buildroot}
 %makeinstall bindir=%{buildroot}/%{_root_sbindir}
+ln -sv %{_root_sbindir}/btrfsck %{buildroot}/%{_root_sbindir}/fsck.btrfs 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %doc COPYING INSTALL
 %{_root_sbindir}/btrfsctl
 %{_root_sbindir}/btrfsck
+%{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/mkfs.btrfs
 %{_root_sbindir}/btrfs-debug-tree
 %{_root_sbindir}/btrfs-show
