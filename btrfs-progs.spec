@@ -47,6 +47,7 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 ln -sv %{_root_sbindir}/btrfsck %{buildroot}/%{_root_sbindir}/fsck.btrfs 
 
 %files
+%doc INSTALL
 %{_root_sbindir}/btrfsctl
 %{_root_sbindir}/btrfsck
 %{_root_sbindir}/btrfstune
