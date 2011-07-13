@@ -3,7 +3,7 @@
 %define snapshot 20101006
 Name:		btrfs-progs
 Version:	0.19
-Release:	%mkrel 1.%{snapshot}.4
+Release:	1.%{snapshot}.4
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -18,7 +18,6 @@ Patch2:		btrfs-progs-0.19-valgrind.patch
 Patch3:		btrfs-progs-0.19-fix-return-value.patch
 Patch4:		btrfs-progs-0.19-build-fixes.patch
 Patch5:		btrfs-progs-0.19-ignore-standard-fsck-switch.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	libuuid-devel
@@ -44,16 +43,10 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %make convert CFLAGS="%{optflags}"
 
 %install
-rm -rf %{buildroot}
 %makeinstall bindir=%{buildroot}/%{_root_sbindir}
 ln -sv %{_root_sbindir}/btrfsck %{buildroot}/%{_root_sbindir}/fsck.btrfs 
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
-%doc COPYING INSTALL
 %{_root_sbindir}/btrfsctl
 %{_root_sbindir}/btrfsck
 %{_root_sbindir}/btrfstune
