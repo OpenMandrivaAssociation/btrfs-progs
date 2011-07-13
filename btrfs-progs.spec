@@ -17,6 +17,7 @@ Patch1:		btrfs-progs-build-everything.patch
 Patch2:		btrfs-progs-0.19-valgrind.patch
 Patch3:		btrfs-progs-0.19-fix-return-value.patch
 Patch4:		btrfs-progs-0.19-build-fixes.patch
+Patch5:		btrfs-progs-0.19-ignore-standard-fsck-switch.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 BuildRequires:	e2fsprogs-devel
@@ -35,6 +36,7 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %patch3 -p1 -b .return_value~
 %patch4 -p1 -b .build_fixes~
 %patch1 -p1 -b .everything~
+%patch5 -p1 -b .ignore_switch~
 
 %build
 %make CFLAGS="%{optflags}"
