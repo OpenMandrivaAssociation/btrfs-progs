@@ -3,7 +3,7 @@
 %define snapshot 20101006
 Name:		btrfs-progs
 Version:	0.19
-Release:	1.%{snapshot}.4
+Release:	1.%{snapshot}.5
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
