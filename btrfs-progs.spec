@@ -1,9 +1,9 @@
 %define _root_sbindir	/sbin
 
-%define snapshot 20110812
+%define snapshot 20110805
 Name:		btrfs-progs
 Version:	0.19
-Release:	1.%{snapshot}.5
+Release:	1.%{snapshot}.1
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -13,8 +13,7 @@ URL:		http://btrfs.wiki.kernel.org/index.php/Main_Page
 # git archive --prefix=btrfs-progs-0.19/ -o ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar --format tar  HEAD
 Source0:	%{name}-%{version}-%{snapshot}.tar.xz
 Patch0:		btrfs-progs-fix-labels.patch
-Patch1:		btrfs-progs-build-everything.patch
-Patch2:		btrfs-progs-0.19-valgrind.patch
+Patch1:		btrfs-progs-0.19-build-everything.patch
 Patch3:		btrfs-progs-0.19-fix-return-value.patch
 Patch4:		btrfs-progs-0.19-build-fixes.patch
 Patch5:		btrfs-progs-0.19-ignore-standard-fsck-switch.patch
@@ -31,7 +30,6 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %prep
 %setup -q
 %patch0 -p1 -b .labels~
-%patch2 -p1 -b .valgrind~
 %patch3 -p1 -b .return_value~
 %patch4 -p1 -b .build_fixes~
 %patch1 -p1 -b .everything~
@@ -39,8 +37,6 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 
 %build
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
-# for btrfs-convert
-%make convert CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
 
 %install
 %makeinstall bindir=%{buildroot}/%{_root_sbindir}
@@ -53,11 +49,13 @@ ln -sv %{_root_sbindir}/btrfsck %{buildroot}/%{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/btrfstune
 %{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/mkfs.btrfs
+%{_root_sbindir}/btrfs-convert
 %{_root_sbindir}/btrfs-debug-tree
 %{_root_sbindir}/btrfs-image
+%{_root_sbindir}/btrfs-select-super
 %{_root_sbindir}/btrfs-show
 %{_root_sbindir}/btrfs-vol
-%{_root_sbindir}/btrfs-convert
+%{_root_sbindir}/btrfs-zero-log
 %{_root_sbindir}/btrfs
 %{_root_sbindir}/btrfs-map-logical
 %{_mandir}/man8/btrfs-image.8*
