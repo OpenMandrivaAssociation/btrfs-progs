@@ -38,9 +38,9 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %patch5 -p1 -b .ignore_switch~
 
 %build
-%make CFLAGS="%{optflags} -Wstrict-aliasing=3"
+%make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
 # for btrfs-convert
-%make convert CFLAGS="%{optflags} -Wstrict-aliasing=3"
+%make convert CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
 
 %install
 %makeinstall bindir=%{buildroot}/%{_root_sbindir}
