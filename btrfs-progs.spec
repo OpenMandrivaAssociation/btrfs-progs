@@ -1,6 +1,6 @@
 %define _root_sbindir	/sbin
 
-%define snapshot 20101006
+%define snapshot 20110812
 Name:		btrfs-progs
 Version:	0.19
 Release:	1.%{snapshot}.5
@@ -11,7 +11,7 @@ License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/index.php/Main_Page
 #Source0:	http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
 # git archive --prefix=btrfs-progs-0.19/ -o ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar --format tar  HEAD
-Source0:	%{name}-%{version}-%{snapshot}.tar.bz2
+Source0:	%{name}-%{version}-%{snapshot}.tar.xz
 Patch0:		btrfs-progs-fix-labels.patch
 Patch1:		btrfs-progs-build-everything.patch
 Patch2:		btrfs-progs-0.19-valgrind.patch
