@@ -21,6 +21,7 @@ Patch6:		btrfs-progs-0.19-recover-chunk.patch
 # from suse
 Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 Patch8:		btrfs-progs-0.19-fix-memleak.patch
+Patch9:		btrfs-progs-0.19-ignore-deleted-loopmounts.patch
 
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	libuuid-devel
@@ -41,6 +42,7 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %patch6 -p1 -b .recover_chunk~
 %patch7 -p1 -b .plug_memory_luck~
 %patch8 -p1 -b .memleak~
+%patch9 -p1 -b .ignore_del_loopmnts~
 
 %build
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
