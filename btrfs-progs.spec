@@ -18,6 +18,8 @@ Patch3:		btrfs-progs-0.19-fix-return-value.patch
 Patch4:		btrfs-progs-0.19-build-fixes.patch
 Patch5:		btrfs-progs-0.19-ignore-standard-fsck-switch.patch
 Patch6:		btrfs-progs-0.19-recover-chunk.patch
+# from suse
+Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	libuuid-devel
@@ -36,6 +38,7 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %patch1 -p1 -b .everything~
 %patch5 -p1 -b .ignore_switch~
 %patch6 -p1 -b .recover_chunk~
+%patch7 -p1 -b .plug_memory_luck~
 
 %build
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
