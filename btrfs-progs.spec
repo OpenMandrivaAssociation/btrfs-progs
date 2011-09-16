@@ -3,7 +3,7 @@
 %define snapshot 20110805
 Name:		btrfs-progs
 Version:	0.19
-Release:	1.%{snapshot}.1
+Release:	1.%{snapshot}.2
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -22,6 +22,7 @@ Patch6:		btrfs-progs-0.19-recover-chunk.patch
 Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 Patch8:		btrfs-progs-0.19-fix-memleak.patch
 Patch9:		btrfs-progs-0.19-ignore-deleted-loopmounts.patch
+Patch10:	btrfs-progs-0.19-20110805-fix-snapshot-arch-check.patch
 
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	libuuid-devel
@@ -43,6 +44,7 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %patch7 -p1 -b .plug_memory_luck~
 %patch8 -p1 -b .memleak~
 %patch9 -p1 -b .ignore_del_loopmnts~
+%patch10 -p1 -b .fix-snapshot-arg-check~
 
 %build
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
