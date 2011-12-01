@@ -8,7 +8,7 @@ Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
 License:	GPLv2
-URL:		http://btrfs.wiki.kernel.org/index.php/Main_Page
+URL:		http://btrfs.wiki.kernel.org/
 #Source0:	http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
 # git archive --prefix=btrfs-progs-0.19/ -o ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar --format tar  HEAD
 Source0:	%{name}-%{version}-%{snapshot}.tar.xz
