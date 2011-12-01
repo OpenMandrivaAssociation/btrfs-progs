@@ -1,6 +1,6 @@
 %define _root_sbindir	/sbin
 
-%define snapshot 20110805
+%define snapshot 20111201
 Name:		btrfs-progs
 Version:	0.19
 Release:	1.%{snapshot}.2
@@ -10,7 +10,8 @@ Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
 #Source0:	http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
-# git archive --prefix=btrfs-progs-0.19/ -o ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar --format tar  HEAD
+# git clone git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git
+# git archive --prefix=btrfs-progs-0.19/ --format tar  HEAD | xz > ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar.xz
 Source0:	%{name}-%{version}-%{snapshot}.tar.xz
 Patch0:		btrfs-progs-fix-labels.patch
 Patch1:		btrfs-progs-0.19-build-everything.patch
@@ -22,7 +23,6 @@ Patch6:		btrfs-progs-0.19-recover-chunk.patch
 Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 Patch8:		btrfs-progs-0.19-fix-memleak.patch
 Patch9:		btrfs-progs-0.19-ignore-deleted-loopmounts.patch
-Patch10:	btrfs-progs-0.19-20110805-fix-snapshot-arch-check.patch
 
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	libuuid-devel
@@ -44,7 +44,6 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %patch7 -p1 -b .plug_memory_luck~
 %patch8 -p1 -b .memleak~
 %patch9 -p1 -b .ignore_del_loopmnts~
-%patch10 -p1 -b .fix-snapshot-arg-check~
 
 %build
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
@@ -60,10 +59,14 @@ ln -sv %{_root_sbindir}/btrfsck %{buildroot}/%{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/btrfstune
 %{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/mkfs.btrfs
+%{_root_sbindir}/btrfs-calc-size
 %{_root_sbindir}/btrfs-convert
+%{_root_sbindir}/btrfs-corrupt-block
 %{_root_sbindir}/btrfs-debug-tree
+%{_root_sbindir}/btrfs-find-root
 %{_root_sbindir}/btrfs-image
 %{_root_sbindir}/btrfs-recover-chunk
+%{_root_sbindir}/btrfs-restore
 %{_root_sbindir}/btrfs-select-super
 %{_root_sbindir}/btrfs-show
 %{_root_sbindir}/btrfs-vol
