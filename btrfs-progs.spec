@@ -25,9 +25,9 @@ Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 Patch8:		btrfs-progs-0.19-fix-memleak.patch
 Patch9:		btrfs-progs-0.19-ignore-deleted-loopmounts.patch
 
-BuildRequires:	e2fsprogs-devel
-BuildRequires:	libuuid-devel
-BuildRequires:	zlib-devel
+BuildRequires:	pkgconfig(ext2fs)
+BuildRequires:	pkgconfig(uuid)
+BuildRequires:	pkgconfig(zlib)
 BuildRequires:	acl-devel
 
 %description
