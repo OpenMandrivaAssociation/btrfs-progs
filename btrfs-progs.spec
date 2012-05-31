@@ -50,8 +50,8 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
 
 %install
-%makeinstall bindir=%{buildroot}/%{_root_sbindir}
-ln -sv %{_root_sbindir}/btrfsck %{buildroot}/%{_root_sbindir}/fsck.btrfs 
+%makeinstall bindir=%{buildroot}%{_root_sbindir}
+ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs 
 
 %files
 %doc INSTALL
