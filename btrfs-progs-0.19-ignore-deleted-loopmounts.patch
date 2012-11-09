@@ -1,0 +1,75 @@
+--- btrfs-progs-0.19/utils.c.ignore_del_loopmnts~	2011-12-01 15:54:26.000000000 +0100
++++ btrfs-progs-0.19/utils.c	2011-12-01 15:54:50.044470770 +0100
+@@ -695,21 +695,29 @@ int is_same_blk_file(const char* a, cons
+ 	char real_a[PATH_MAX];
+ 	char real_b[PATH_MAX];
+ 
+-	if(!realpath(a, real_a) ||
+-	   !realpath(b, real_b))
+-	{
+-		return -errno;
+-	}
++	if(!realpath(a, real_a))
++            strcpy(real_a, a);
++
++        if (!realpath(b, real_b))
++            strcpy(real_b, b);
+ 
+ 	/* Identical path? */
+ 	if(strcmp(real_a, real_b) == 0)
+ 		return 1;
+ 
+-	if(stat(a, &st_buf_a) < 0 ||
+-	   stat(b, &st_buf_b) < 0)
+-	{
+-		if (errno == ENOENT)
+-			return 0;
++	if(stat(a, &st_buf_a) < 0)
++        {
++            if (errno == ENOENT)
++                return 0;
++
++		return -errno;
++	}
++
++	if(stat(b, &st_buf_b) < 0)
++        {
++            if (errno == ENOENT)
++                return 0;
++
+ 		return -errno;
+ 	}
+ 
+@@ -750,10 +758,13 @@ int is_same_loop_file(const char* a, con
+ 			return 0;
+ 		return ret;
+ 	} else if (ret) {
+-		if ((ret = resolve_loop_device(a, res_a, sizeof(res_a))) < 0)
++		if((ret = resolve_loop_device(a, res_a, sizeof(res_a))) < 0) {
++                    if (errno != EPERM)
+ 			return ret;
+ 
+-		final_a = res_a;
++                }
++                else
++                    final_a = res_a;
+ 	} else {
+ 		final_a = a;
+ 	}
+@@ -764,10 +775,12 @@ int is_same_loop_file(const char* a, con
+ 			return 0;
+ 		return ret;
+ 	} else if (ret) {
+-		if((ret = resolve_loop_device(b, res_b, sizeof(res_b))) < 0)
+-			return ret;
+-
+-		final_b = res_b;
++		if((ret = resolve_loop_device(b, res_b, sizeof(res_b))) < 0) {
++                    if (errno != EPERM)
++                        return ret;
++                }
++                else
++                    final_b = res_b;
+ 	} else {
+ 		final_b = b;
+ 	}

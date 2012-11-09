@@ -1,0 +1,12 @@
+--- btrfs-progs-0.19/btrfsck.c.orig	2011-07-13 14:55:10.000000000 +0200
++++ btrfs-progs-0.19/btrfsck.c	2011-07-13 14:56:14.512533580 +0200
+@@ -22,7 +22,9 @@
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <fcntl.h>
++#include <sys/types.h>
+ #include <sys/stat.h>
++#include <unistd.h>
+ #include "kerncompat.h"
+ #include "ctree.h"
+ #include "disk-io.h"

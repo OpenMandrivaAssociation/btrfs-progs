@@ -1,0 +1,17 @@
+--- btrfs-progs-0.19/disk-io.c.memleak~	2011-08-13 15:08:46.737131761 +0200
++++ btrfs-progs-0.19/disk-io.c	2011-08-13 15:13:17.841911308 +0200
+@@ -419,11 +419,13 @@ int find_and_setup_log_root(struct btrfs
+ {
+ 	u32 blocksize;
+ 	u64 blocknr = btrfs_super_log_root(disk_super);
+-	struct btrfs_root *log_root = malloc(sizeof(struct btrfs_root));
++	struct btrfs_root *log_root;
+ 
+ 	if (blocknr == 0)
+ 		return 0;
+ 
++	log_root = malloc(sizeof(struct btrfs_root));
++
+ 	blocksize = btrfs_level_size(tree_root,
+ 			     btrfs_super_log_root_level(disk_super));
+ 
