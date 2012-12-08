@@ -80,3 +80,10 @@ ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs
 %{_mandir}/man8/btrfsctl.8*
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_mandir}/man8/btrfs.8.*
+
+
+%changelog
+* Thu May 31 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.19-1.20120328.2
++ Revision: 801614
+- fix ignore options patch
+
