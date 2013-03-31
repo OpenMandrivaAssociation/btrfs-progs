@@ -1,0 +1,24 @@
+--- btrfs-progs-0.20/Makefile~	2013-03-31 01:46:04.369840036 +0100
++++ btrfs-progs-0.20/Makefile	2013-03-31 01:46:05.987855699 +0100
+@@ -46,7 +46,8 @@ MAKEOPTS = --no-print-directory Q=$(Q)
+ 
+ progs = btrfsctl mkfs.btrfs btrfs-debug-tree btrfs-show btrfs-vol btrfsck \
+ 	btrfs btrfs-map-logical btrfs-image btrfs-zero-log btrfs-convert \
+-	btrfs-find-root btrfstune btrfs-show-super
++	btrfs-find-root btrfstune btrfs-show-super btrfs-calc-size \
++	btrfs-corrupt-block btrfs-select-super
+ 
+ # Create all the static targets
+ static_objects = $(patsubst %.o, %.static.o, $(objects))
+@@ -114,9 +115,9 @@ btrfs.static: $(static_objects) $(libs)
+ 	$(Q)$(CC) $(STATIC_CFLAGS) -o btrfs.static btrfs.static.o help.static.o $(static_cmds_objects) \
+ 		$(static_objects) $(STATIC_LDFLAGS) $(STATIC_LIBS)
+ 
+-calc-size: $(objects) $(libs) calc-size.o
++btrfs-calc-size: $(objects) $(libs) calc-size.o
+ 	@echo "    [LD]     $@"
+-	$(Q)$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
++	$(Q)$(CC) $(CFLAGS) -o btrfs-calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
+ 
+ btrfs-find-root: $(objects) $(libs) find-root.o
+ 	@echo "    [LD]     $@"

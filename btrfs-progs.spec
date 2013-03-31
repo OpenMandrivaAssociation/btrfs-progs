@@ -1,9 +1,9 @@
 %define _root_sbindir	/sbin
 
-%define snapshot 20120328
+%define	gitdate	20130313
 Name:		btrfs-progs
-Version:	0.19
-Release:	1.%{snapshot}.2
+Version:	0.20
+Release:	0.%{gitdate}.1
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -12,9 +12,9 @@ URL:		http://btrfs.wiki.kernel.org/
 #Source0:	http://www.kernel.org/pub/linux/kernel/people/mason/btrfs/%{name}-%{version}.tar.bz2
 # git clone git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git
 # git archive --prefix=btrfs-progs-0.19/ --format tar  HEAD | xz > ../SOURCES/btrfs-progs-0.19-$(date +%Y%m%d).tar.xz
-Source0:	%{name}-%{version}-%{snapshot}.tar.xz
+Source0:	%{name}-%{version}-%{gitdate}.tar.xz
 Patch0:		btrfs-progs-fix-labels.patch
-Patch1:		btrfs-progs-0.19-20120328-build-everything.patch
+Patch1:		btrfs-progs-0.20-20130313-build-everything.patch
 Patch3:		btrfs-progs-0.19-fix-return-value.patch
 Patch4:		btrfs-progs-0.19-build-fixes.patch
 Patch5:		btrfs-progs-0.19-20120328-ignore-standard-fsck-switch.patch
@@ -36,13 +36,13 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 
 %prep
 %setup -q
-%patch0 -p1 -b .labels~
+#patch0 -p1 -b .labels~
 %patch3 -p1 -b .return_value~
 #patch4 -p1 -b .build_fixes~
 %patch1 -p1 -b .everything~
-%patch5 -p1 -b .ignore_switch~
+#patch5 -p1 -b .ignore_switch~
 #patch6 -p1 -b .recover_chunk~
-%patch7 -p1 -b .plug_memory_luck~
+#patch7 -p1 -b .plug_memory_luck~
 #patch8 -p1 -b .memleak~
 %patch9 -p1 -b .ignore_del_loopmnts~
 
@@ -67,9 +67,10 @@ ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/btrfs-find-root
 %{_root_sbindir}/btrfs-image
 #%{_root_sbindir}/btrfs-recover-chunk
-%{_root_sbindir}/btrfs-restore
+#%{_root_sbindir}/btrfs-restore
 %{_root_sbindir}/btrfs-select-super
 %{_root_sbindir}/btrfs-show
+%{_root_sbindir}/btrfs-show-super
 %{_root_sbindir}/btrfs-vol
 %{_root_sbindir}/btrfs-zero-log
 %{_root_sbindir}/btrfs
