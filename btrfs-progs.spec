@@ -74,6 +74,10 @@ correcting any inconsistiencies in the btrfs filesystem.
 Summary:	Development headers & libraries for btrfs
 Group:		Development/C
 Provides:	btrfs-devel = %{EVRD}
+Requires:	%{libname} = %{EVRD}
+%if %{with uclibc}
+Requires:	uclibc-%{libname} = %{EVRD}
+%endif
 
 %description -n	%{devname}
 This package contains headers & libraries for developing programs to create,
