@@ -34,6 +34,7 @@ Patch10:	btrfs-progs-0.20-20130313-add-major-to-soname.patch
 # we don't enable ftw() in uClibc, so use nftw() equivalent
 Patch11:	btrfs-progs-0.20-20130313-replace-ftw-with-nftw.patch
 
+BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
