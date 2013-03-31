@@ -1,5 +1,9 @@
 %define _root_sbindir	/sbin
 
+%define	major	0
+%define	libname	%mklibname btrfs %{major}
+%define	devname	%mklibname -d btrfs
+
 %define	gitdate	20130313
 Name:		btrfs-progs
 Version:	0.20
@@ -31,8 +35,24 @@ BuildRequires:	pkgconfig(zlib)
 BuildRequires:	acl-devel
 
 %description
-The btrfs-progs package provides all the userpsace programs needed to create,
+The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
+
+%package -n	%{libname}
+Summary:	Library for btrfs
+Group:		System/Libraries
+
+%description -n	%{libname}
+This package contains libraries for creating, checking, modifying and
+correcting any inconsistiencies in the btrfs filesystem.
+
+%package -n	%{devname}
+Summary:	Development headers & libraries for btrfs
+Group:		Development/C
+
+%description -n	%{devname}
+This package contains headers & libraries for developing programs to create,
+check, modify or correct any inconsistiencies in the btrfs filesystem.
 
 %prep
 %setup -q
@@ -52,6 +72,10 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 %install
 %makeinstall bindir=%{buildroot}%{_root_sbindir}
 ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs 
+rm %{buildroot}%{_libdir}/libbtrfs.so
+mkdir -p %{buildroot}/%{_lib}
+mv %{buildroot}%{_libdir}/libbtrfs.so.%{major}* %{buildroot}/%{_lib}
+ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
 
 %files
 %doc INSTALL
@@ -82,6 +106,14 @@ ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_mandir}/man8/btrfs.8.*
 
+%files -n %{libname}
+/%{_lib}/libbtrfs.so.%{major}*
+
+%files -n %{devname}
+%{_libdir}/libbtrfs.so
+%{_libdir}/libbtrfs.a
+%dir %{_includedir}/btrfs
+%{_includedir}/btrfs/*
 
 %changelog
 * Thu May 31 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.19-1.20120328.2
