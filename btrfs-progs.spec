@@ -111,6 +111,8 @@ cp -a * .uclibc
 
 %install
 %makeinstall bindir=%{buildroot}%{_root_sbindir}
+
+ln -f %{buildroot}%{_root_sbindir}/btrfs %{buildroot}%{_root_sbindir}/btrfsck
 ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs 
 rm %{buildroot}%{_libdir}/libbtrfs.so
 mkdir -p %{buildroot}/%{_lib}
@@ -120,6 +122,7 @@ ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtr
 %if %{with uclibc}
 %makeinstall bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}%{_libdir} -C .uclibc
 
+ln -f %{buildroot}%{uclibc_root}%{_root_sbindir}/btrfs %{buildroot}%{uclibc_root}%{_root_sbindir}/btrfsck
 ln -sv %{uclibc_root}%{_root_sbindir}/btrfsck %{buildroot}%{uclibc_root}%{_root_sbindir}/fsck.btrfs 
 rm %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so
 mkdir -p %{buildroot}%{uclibc_root}/%{_lib}
