@@ -114,7 +114,7 @@ ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtr
 
 %files -n %{devname}
 %{_libdir}/libbtrfs.so
-%{_libdir}/libbtrfs.a
+%attr(644,root,root) %{_libdir}/libbtrfs.a
 %dir %{_includedir}/btrfs
 %{_includedir}/btrfs/*
 
