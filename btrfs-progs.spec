@@ -50,6 +50,7 @@ correcting any inconsistiencies in the btrfs filesystem.
 %package -n	%{devname}
 Summary:	Development headers & libraries for btrfs
 Group:		Development/C
+Provides:	btrfs-devel = %{EVRD}
 
 %description -n	%{devname}
 This package contains headers & libraries for developing programs to create,
