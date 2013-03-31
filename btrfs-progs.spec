@@ -28,6 +28,7 @@ Patch6:		btrfs-progs-0.19-20120328-recover-chunk.patch
 Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 Patch8:		btrfs-progs-0.19-fix-memleak.patch
 Patch9:		btrfs-progs-0.19-ignore-deleted-loopmounts.patch
+Patch10:	btrfs-progs-0.20-20130313-add-major-to-soname.patch
 
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(uuid)
@@ -65,6 +66,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 #patch7 -p1 -b .plug_memory_luck~
 #patch8 -p1 -b .memleak~
 %patch9 -p1 -b .ignore_del_loopmnts~
+%patch10 -p1 -b .abimajor~
 
 %build
 %make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
