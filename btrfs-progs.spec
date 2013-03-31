@@ -99,9 +99,9 @@ cp -a * .uclibc
 %endif
 
 %build
-%make CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
+%make Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
 %if %{with uclibc}
-%make CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" -C .uclibc
+%make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" -C .uclibc
 %endif
 
 
