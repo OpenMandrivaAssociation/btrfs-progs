@@ -31,6 +31,8 @@ Patch7:		btrfs-progs-0.19-plug-memory-leak-in-find_and_setup_log_root.patch
 Patch8:		btrfs-progs-0.19-fix-memleak.patch
 Patch9:		btrfs-progs-0.19-ignore-deleted-loopmounts.patch
 Patch10:	btrfs-progs-0.20-20130313-add-major-to-soname.patch
+# we don't enable ftw() in uClibc, so use nftw() equivalent
+Patch11:	btrfs-progs-0.20-20130313-replace-ftw-with-nftw.patch
 
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(uuid)
@@ -89,6 +91,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 #patch8 -p1 -b .memleak~
 %patch9 -p1 -b .ignore_del_loopmnts~
 %patch10 -p1 -b .abimajor~
+%patch11 -p1 -b .nftw~
 
 %if %{with uclibc}
 mkdir -p .uclibc
