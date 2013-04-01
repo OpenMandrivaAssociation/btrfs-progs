@@ -9,7 +9,7 @@
 %define	gitdate	20130313
 Name:		btrfs-progs
 Version:	0.20
-Release:	0.%{gitdate}.1
+Release:	0.%{gitdate}.2
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -23,7 +23,7 @@ Patch0:		btrfs-progs-fix-labels.patch
 Patch1:		btrfs-progs-0.20-20130313-build-everything.patch
 Patch3:		btrfs-progs-0.19-fix-return-value.patch
 Patch4:		btrfs-progs-0.19-build-fixes.patch
-Patch5:		btrfs-progs-0.19-20120328-ignore-standard-fsck-switch.patch
+Patch5:		btrfs-progs-0.20-20130313-ignore-standard-fsck-switch.patch
 # do NOT enable
 Patch6:		btrfs-progs-0.19-20120328-recover-chunk.patch
 # from suse
@@ -91,7 +91,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 %patch3 -p1 -b .return_value~
 #patch4 -p1 -b .build_fixes~
 %patch1 -p1 -b .everything~
-#patch5 -p1 -b .ignore_switch~
+%patch5 -p1 -b .ignore_switch~
 #patch6 -p1 -b .recover_chunk~
 #patch7 -p1 -b .plug_memory_luck~
 #patch8 -p1 -b .memleak~
