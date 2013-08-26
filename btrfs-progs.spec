@@ -1,15 +1,15 @@
-%bcond_without	uclibc
+%bcond_without uclibc
 
-%define _root_sbindir	/sbin
+%define _root_sbindir /sbin
 
-%define	major	0
-%define	libname	%mklibname btrfs %{major}
-%define	devname	%mklibname -d btrfs
+%define major 0
+%define libname %mklibname btrfs %{major}
+%define devname %mklibname -d btrfs
 
-%define	gitdate	20130313
+%define gitdate 20130313
 Name:		btrfs-progs
 Version:	0.20
-Release:	0.%{gitdate}.2
+Release:	0.%{gitdate}.3
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -47,6 +47,7 @@ BuildRequires:	uClibc-devel
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
+%if %{with uclibc}
 
 %package -n	uclibc-%{name}
 Summary:	Userspace programs for btrfs (uClibc build)
@@ -55,6 +56,7 @@ Group:		System/Kernel and hardware
 %description -n uclibc-%{name}
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
+%endif
 
 %package -n	%{libname}
 Summary:	Library for btrfs
@@ -64,6 +66,7 @@ Group:		System/Libraries
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
 
+%if %{with uclibc}
 %package -n	uclibc-%{libname}
 Summary:	Library for btrfs (uClibc build)
 Group:		System/Libraries
@@ -71,6 +74,7 @@ Group:		System/Libraries
 %description -n	uclibc-%{libname}
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
+%endif
 
 %package -n	%{devname}
 Summary:	Development headers & libraries for btrfs
