@@ -35,7 +35,7 @@ Patch10:	btrfs-progs-0.20-20130313-add-major-to-soname.patch
 Patch11:	btrfs-progs-0.20-20130313-replace-ftw-with-nftw.patch
 
 BuildRequires:	acl-devel
-BuildRequires:	liblzo-devel
+BuildRequires:	lzo-devel
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(uuid)
@@ -109,7 +109,7 @@ cp -a * .uclibc
 %endif
 
 %build
-%make Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
+%make CC=%{__cc} Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3"
 %if %{with uclibc}
 %make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" -C .uclibc
 %endif
