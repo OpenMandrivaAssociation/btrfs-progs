@@ -18,6 +18,7 @@ Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:        btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
+Patch1:		btrfs-init-dev-list.patch
 
 BuildRequires:	acl-devel
 BuildRequires:	lzo-devel
@@ -77,6 +78,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 %prep
 %setup -q -n %{name}-v%{version}
 %patch0 -p1 -b .fsck~
+%patch1 -p1 -b .initdevlst~
 
 %if %{with uclibc}
 mkdir -p .uclibc
