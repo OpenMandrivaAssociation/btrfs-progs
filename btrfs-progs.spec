@@ -34,8 +34,19 @@ BuildRequires:	uClibc-devel
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
-%if %{with uclibc}
 
+%package	extra
+Summary:	Additional userspace programs for btrfs
+Group:		System/Kernel and hardware
+
+%description	extra
+This package contains the following extra btrfs utils:
+* btrfs-calc-size
+* btrfs-corrupt-block
+* btrfs-fragments
+* btrfs-select-super
+
+%if %{with uclibc}
 %package -n	uclibc-%{name}
 Summary:	Userspace programs for btrfs (uClibc build)
 Group:		System/Kernel and hardware
@@ -90,7 +101,7 @@ cp -a * .uclibc
 %build
 %make CC=%{__cc} Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all extra
 %if %{with uclibc}
-%make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all extra -C .uclibc
+%make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all -C .uclibc
 %endif
 
 
@@ -102,7 +113,7 @@ mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
 
 %if %{with uclibc}
-%makeinstall install-extra bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}/%{_lib} -C .uclibc
+%makeinstall bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}/%{_lib} -C .uclibc
 
 rm %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{uclibc_root}%{_libdir}
@@ -116,15 +127,11 @@ find %{buildroot} -name \*.a -delete
 %files
 %doc INSTALL
 %{_root_sbindir}/btrfs
-%{_root_sbindir}/btrfs-calc-size
 %{_root_sbindir}/btrfs-convert
-%{_root_sbindir}/btrfs-corrupt-block
 %{_root_sbindir}/btrfs-debug-tree
 %{_root_sbindir}/btrfs-find-root
-%{_root_sbindir}/btrfs-fragments
 %{_root_sbindir}/btrfs-image
 %{_root_sbindir}/btrfs-map-logical
-%{_root_sbindir}/btrfs-select-super
 %{_root_sbindir}/btrfs-show-super
 %{_root_sbindir}/btrfs-zero-log
 %{_root_sbindir}/btrfsck
@@ -161,18 +168,20 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_datadir}/bash-completion/completions/btrfs
 
+%files extra
+%{_root_sbindir}/btrfs-calc-size
+%{_root_sbindir}/btrfs-corrupt-block
+%{_root_sbindir}/btrfs-fragments
+%{_root_sbindir}/btrfs-select-super
+
 %if %{with uclibc}
 %files -n uclibc-%{name}
 %{uclibc_root}%{_root_sbindir}/btrfs
-%{uclibc_root}%{_root_sbindir}/btrfs-calc-size
 %{uclibc_root}%{_root_sbindir}/btrfs-convert
-%{uclibc_root}%{_root_sbindir}/btrfs-corrupt-block
 %{uclibc_root}%{_root_sbindir}/btrfs-debug-tree
 %{uclibc_root}%{_root_sbindir}/btrfs-find-root
-%{uclibc_root}%{_root_sbindir}/btrfs-fragments
 %{uclibc_root}%{_root_sbindir}/btrfs-image
 %{uclibc_root}%{_root_sbindir}/btrfs-map-logical
-%{uclibc_root}%{_root_sbindir}/btrfs-select-super
 %{uclibc_root}%{_root_sbindir}/btrfs-show-super
 %{uclibc_root}%{_root_sbindir}/btrfs-zero-log
 %{uclibc_root}%{_root_sbindir}/btrfsck
