@@ -1,0 +1,58 @@
+
+Many systems expect a fsck.<filesystem> -a <device>
+command to be accepted.
+
+commit: 6cd836d7d95ae61edfca2406f48eeca47b8cfd81
+(btrfs-progs: ignore -a option in mkfs)
+
+added this 'support' to btrfsck so one could symlink fsck.btrfs
+to btrfsck and get the desired result.
+
+But then it got broken by:
+commit 5956f752c66d5259bbb17a2dd47ee8c8cc0e5f4f
+(Btrfs-progs: add btrfsck functionality to btrfs)
+
+like this:
+# fsck.btrfs -a /dev/loop0
+Unknown option: -a
+usage: btrfs [--help] [--version] <group> [<group>...] <command> [<args>]
+
+Fix this breakage by doing the same name detection for fsck.btrfs as we do
+for btrfsck as added in commit: d5d2046ae3b216af22a8a37c940f2412ba519b6e
+(Btrfs-progs: add btrfsck name detection to btrfs)
+
+and we get the expected result:
+
+# fsck.btrfs -a /dev/loop0
+Checking filesystem on /dev/loop0
+UUID: afe796c5-9e06-43d2-a5f4-a2beca58e82a
+checking extents
+checking free space cache
+cache and super generation don't match, space cache will be invalidated
+checking fs roots
+checking csums
+checking root refs
+found 28672 bytes used err is 0
+total csum bytes: 0
+total tree bytes: 28672
+total fs tree bytes: 8192
+total extent tree bytes: 4096
+btree space waste bytes: 23766
+file data blocks allocated: 0
+ referenced 0
+Btrfs v3.12
+
+Signed-off-by: Thomas Backlund <tmb@mageia.org>
+
+diff -Nurp btrfs-progs-v3.12.orig/btrfs.c btrfs-progs-v3.12/btrfs.c
+--- btrfs-progs-v3.12.orig/btrfs.c	2013-11-25 22:48:32.000000000 +0200
++++ btrfs-progs-v3.12/btrfs.c	2013-12-26 18:29:31.382400701 +0200
+@@ -271,7 +271,7 @@ int main(int argc, char **argv)
+ 	else
+ 		bname = argv[0];
+ 
+-	if (!strcmp(bname, "btrfsck")) {
++	if (!strcmp(bname, "btrfsck") || !strcmp(bname, "fsck.btrfs")) {
+ 		argv[0] = "check";
+ 	} else {
+ 		argc--;
