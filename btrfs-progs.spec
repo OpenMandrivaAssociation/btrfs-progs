@@ -23,8 +23,12 @@ Patch2:		btrfs-progs-v3.17.3-build-extra_progs-rule.patch
 
 BuildRequires:	acl-devel
 BuildRequires:	lzo-devel
+BuildRequires:	gd-devel
+BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(ext2fs)
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
 %if %{with uclibc}
