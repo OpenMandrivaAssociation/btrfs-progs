@@ -19,6 +19,7 @@ Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%
 Source1:        btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
 Patch1:		btrfs-init-dev-list.patch
+Patch2:		btrfs-progs-v3.17.3-build-extra_progs-rule.patch
 
 BuildRequires:	acl-devel
 BuildRequires:	lzo-devel
@@ -79,6 +80,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 %setup -q -n %{name}-v%{version}
 %patch0 -p1 -b .fsck~
 %patch1 -p1 -b .initdevlst~
+%patch2 -p1 -b .extra_progs~
 
 %if %{with uclibc}
 mkdir -p .uclibc
@@ -86,14 +88,14 @@ cp -a * .uclibc
 %endif
 
 %build
-%make CC=%{__cc} Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3" LDFLAGS="%{ldflags}"
+%make CC=%{__cc} Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all extra
 %if %{with uclibc}
-%make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" -C .uclibc
+%make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all extra -C .uclibc
 %endif
 
 
 %install
-%makeinstall bindir=%{buildroot}%{_root_sbindir}
+%makeinstall install-extra bindir=%{buildroot}%{_root_sbindir}
 
 #ln -f %{buildroot}%{_root_sbindir}/btrfs %{buildroot}%{_root_sbindir}/btrfsck
 #ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs 
@@ -103,7 +105,7 @@ mv %{buildroot}%{_libdir}/libbtrfs.so.%{major}* %{buildroot}/%{_lib}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
 
 %if %{with uclibc}
-%makeinstall bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}%{_libdir} -C .uclibc
+%makeinstall install-extra bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}%{_libdir} -C .uclibc
 
 #ln -f %{buildroot}%{uclibc_root}%{_root_sbindir}/btrfs %{buildroot}%{uclibc_root}%{_root_sbindir}/btrfsck
 #ln -sv %{uclibc_root}%{_root_sbindir}/btrfsck %{buildroot}%{uclibc_root}%{_root_sbindir}/fsck.btrfs 
@@ -118,15 +120,19 @@ install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completio
 %files
 %doc INSTALL
 %{_root_sbindir}/btrfs
+%{_root_sbindir}/btrfs-calc-size
 %{_root_sbindir}/btrfs-convert
+%{_root_sbindir}/btrfs-corrupt-block
 %{_root_sbindir}/btrfs-debug-tree
 %{_root_sbindir}/btrfs-find-root
+%{_root_sbindir}/btrfs-fragments
 %{_root_sbindir}/btrfs-image
 %{_root_sbindir}/btrfs-map-logical
+%{_root_sbindir}/btrfs-select-super
+%{_root_sbindir}/btrfs-show-super
 %{_root_sbindir}/btrfs-zero-log
 %{_root_sbindir}/btrfsck
 %{_root_sbindir}/btrfstune
-%{_root_sbindir}/btrfs-show-super
 %{_root_sbindir}/fsck.btrfs
 %{_root_sbindir}/mkfs.btrfs
 %{_mandir}/man5/btrfs.5*
@@ -162,15 +168,19 @@ install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completio
 %if %{with uclibc}
 %files -n uclibc-%{name}
 %{uclibc_root}%{_root_sbindir}/btrfs
+%{uclibc_root}%{_root_sbindir}/btrfs-calc-size
 %{uclibc_root}%{_root_sbindir}/btrfs-convert
+%{uclibc_root}%{_root_sbindir}/btrfs-corrupt-block
 %{uclibc_root}%{_root_sbindir}/btrfs-debug-tree
 %{uclibc_root}%{_root_sbindir}/btrfs-find-root
+%{uclibc_root}%{_root_sbindir}/btrfs-fragments
 %{uclibc_root}%{_root_sbindir}/btrfs-image
 %{uclibc_root}%{_root_sbindir}/btrfs-map-logical
+%{uclibc_root}%{_root_sbindir}/btrfs-select-super
+%{uclibc_root}%{_root_sbindir}/btrfs-show-super
 %{uclibc_root}%{_root_sbindir}/btrfs-zero-log
 %{uclibc_root}%{_root_sbindir}/btrfsck
 %{uclibc_root}%{_root_sbindir}/btrfstune
-%{uclibc_root}%{_root_sbindir}/btrfs-show-super
 %{uclibc_root}%{_root_sbindir}/fsck.btrfs
 %{uclibc_root}%{_root_sbindir}/mkfs.btrfs
 %endif
