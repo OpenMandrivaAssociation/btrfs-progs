@@ -13,10 +13,10 @@ Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
 License:	GPLv2
-URL:            http://btrfs.wiki.kernel.org/
+URL:		http://btrfs.wiki.kernel.org/
 Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.xz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
-Source1:        btrfs-completion.sh
+Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
 Patch1:		btrfs-init-dev-list.patch
 Patch2:		btrfs-progs-v3.17.3-build-extra_progs-rule.patch
@@ -95,27 +95,23 @@ cp -a * .uclibc
 
 
 %install
-%makeinstall install-extra bindir=%{buildroot}%{_root_sbindir}
+%makeinstall install-extra bindir=%{buildroot}%{_root_sbindir} libdir=%{buildroot}/%{_lib}
 
-#ln -f %{buildroot}%{_root_sbindir}/btrfs %{buildroot}%{_root_sbindir}/btrfsck
-#ln -sv %{_root_sbindir}/btrfsck %{buildroot}%{_root_sbindir}/fsck.btrfs 
-rm %{buildroot}%{_libdir}/libbtrfs.so
-mkdir -p %{buildroot}/%{_lib}
-mv %{buildroot}%{_libdir}/libbtrfs.so.%{major}* %{buildroot}/%{_lib}
+rm %{buildroot}/%{_lib}/libbtrfs.so
+mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
 
 %if %{with uclibc}
-%makeinstall install-extra bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}%{_libdir} -C .uclibc
+%makeinstall install-extra bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}/%{_lib} -C .uclibc
 
-#ln -f %{buildroot}%{uclibc_root}%{_root_sbindir}/btrfs %{buildroot}%{uclibc_root}%{_root_sbindir}/btrfsck
-#ln -sv %{uclibc_root}%{_root_sbindir}/btrfsck %{buildroot}%{uclibc_root}%{_root_sbindir}/fsck.btrfs 
-rm %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so
-mkdir -p %{buildroot}%{uclibc_root}/%{_lib}
-mv %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so.%{major}* %{buildroot}%{uclibc_root}/%{_lib}
+rm %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so
+mkdir -p %{buildroot}%{uclibc_root}%{_libdir}
 ln -sr %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so
 %endif
 
 install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completions/btrfs
+
+find %{buildroot} -name \*.a -delete
 
 %files
 %doc INSTALL
@@ -197,14 +193,6 @@ install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completio
 %{_libdir}/libbtrfs.so
 %if %{with uclibc}
 %{uclibc_root}%{_libdir}/libbtrfs.so
-%attr(644,root,root) %{uclibc_root}%{_libdir}/libbtrfs.a
 %endif
-%attr(644,root,root) %{_libdir}/libbtrfs.a
 %dir %{_includedir}/btrfs
 %{_includedir}/btrfs/*
-
-%changelog
-* Thu May 31 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.19-1.20120328.2
-+ Revision: 801614
-- fix ignore options patch
-
