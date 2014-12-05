@@ -15,6 +15,8 @@ Group:		System/Kernel and hardware
 License:	GPLv2
 URL:            http://btrfs.wiki.kernel.org/
 Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.xz
+# From http://www.spinics.net/lists/linux-btrfs/msg15899.html
+Source1:        btrfs-completion.sh
 
 BuildRequires:	acl-devel
 BuildRequires:	lzo-devel
@@ -107,6 +109,7 @@ mv %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so.%{major}* %{buildroot}%{ucli
 ln -sr %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so
 %endif
 
+install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 
 %files
 %doc INSTALL
@@ -150,6 +153,7 @@ ln -sr %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{u
 %{_mandir}/man8/btrfstune.8*
 %{_mandir}/man8/fsck.btrfs.8*
 %{_mandir}/man8/mkfs.btrfs.8*
+%{_datadir}/bash-completion/completions/btrfs
 
 %if %{with uclibc}
 %files -n uclibc-%{name}
