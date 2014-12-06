@@ -22,6 +22,7 @@ Patch1:		btrfs-init-dev-list.patch
 Patch2:		btrfs-progs-v3.17.3-build-extra_progs-rule.patch
 
 BuildRequires:	acl-devel
+BuildRequires:	asciidoc
 BuildRequires:	lzo-devel
 BuildRequires:	gd-devel
 BuildRequires:	jpeg-devel
