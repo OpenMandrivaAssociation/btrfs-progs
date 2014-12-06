@@ -26,6 +26,7 @@ BuildRequires:	asciidoc
 BuildRequires:	lzo-devel
 BuildRequires:	gd-devel
 BuildRequires:	jpeg-devel
+BuildRequires:	xmlto
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(freetype2)
