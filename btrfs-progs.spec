@@ -7,8 +7,8 @@
 %define devname %mklibname -d btrfs
 
 Name:		btrfs-progs
-Version:	3.17.3
-Release:	2
+Version:	3.19.1
+Release:	1
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
