@@ -105,22 +105,32 @@ cp -a * .uclibc
 %endif
 
 %build
-%make CC=%{__cc} Q= CFLAGS="%{optflags} -Os -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all extra
 %if %{with uclibc}
-%make Q= CC=%{uclibc_cc} CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" LDFLAGS="%{ldflags}" all -C .uclibc
+pushd .uclibc
+CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" \
+%uclibc_configure	--bindir=%{uclibc_root}%{_root_sbindir} \
+			--libdir=%{uclibc_root}/%{_lib} \
+			--disable-documentation
+%make V=1 all btrfs-select-super btrfs-calc-size btrfs-corrupt-block
+popd
 %endif
 
+CFLAGS="%{optflags} -Wstrict-aliasing=3" \
+%configure		--bindir=%{_root_sbindir} \
+			--libdir=/%{_lib}
+%make V=1 all extra
 
 %install
-%makeinstall install-extra bindir=%{buildroot}%{_root_sbindir} libdir=%{buildroot}/%{_lib}
+%makeinstall_std install-extra
+install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}%{_root_sbindir}
 
 rm %{buildroot}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
 
 %if %{with uclibc}
-%makeinstall bindir=%{buildroot}%{uclibc_root}%{_root_sbindir} libdir=%{buildroot}%{uclibc_root}/%{_lib} -C .uclibc
-
+%makeinstall_std -C .uclibc
+install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}%{uclibc_root}%{_root_sbindir}
 rm %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{uclibc_root}%{_libdir}
 ln -sr %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so
@@ -183,11 +193,14 @@ find %{buildroot} -name \*.a -delete
 %if %{with uclibc}
 %files -n uclibc-%{name}
 %{uclibc_root}%{_root_sbindir}/btrfs
+%{uclibc_root}%{_root_sbindir}/btrfs-calc-size
 %{uclibc_root}%{_root_sbindir}/btrfs-convert
+%{uclibc_root}%{_root_sbindir}/btrfs-corrupt-block
 %{uclibc_root}%{_root_sbindir}/btrfs-debug-tree
 %{uclibc_root}%{_root_sbindir}/btrfs-find-root
 %{uclibc_root}%{_root_sbindir}/btrfs-image
 %{uclibc_root}%{_root_sbindir}/btrfs-map-logical
+%{uclibc_root}%{_root_sbindir}/btrfs-select-super
 %{uclibc_root}%{_root_sbindir}/btrfs-show-super
 %{uclibc_root}%{_root_sbindir}/btrfs-zero-log
 %{uclibc_root}%{_root_sbindir}/btrfsck
