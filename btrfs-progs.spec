@@ -19,7 +19,7 @@ Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
 Patch1:		btrfs-init-dev-list.patch
-Patch2:		btrfs-progs-v3.17.3-build-extra_progs-rule.patch
+Patch2:		btrfs-progs-v3.19.1-build-extra_progs-rule.patch
 
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc

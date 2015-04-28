@@ -1,6 +1,6 @@
---- btrfs-progs-v3.17.3/Makefile~	2014-12-05 15:46:54.318303471 +0100
-+++ btrfs-progs-v3.17.3/Makefile	2014-12-05 15:46:56.578298170 +0100
-@@ -146,6 +146,8 @@ test:
+--- btrfs-progs-v3.19.1/Makefile.in~	2015-04-28 13:55:44.074889782 +0200
++++ btrfs-progs-v3.19.1/Makefile.in	2015-04-28 13:55:46.220885051 +0200
+@@ -167,6 +167,8 @@ test: btrfs btrfs-convert btrfs-image bt
  		bash tests/$$t || exit 1; \
  	done
  
@@ -9,7 +9,7 @@
  #
  # NOTE: For static compiles, you need to have all the required libs
  # 	static equivalent available
-@@ -293,6 +295,10 @@ install: $(libs) $(progs) $(INSTALLDIRS)
+@@ -330,6 +332,10 @@ install: $(libs) $(progs_install) $(INST
  	$(INSTALL) -m755 -d $(DESTDIR)$(incdir)
  	$(INSTALL) -m644 $(headers) $(DESTDIR)$(incdir)
  
