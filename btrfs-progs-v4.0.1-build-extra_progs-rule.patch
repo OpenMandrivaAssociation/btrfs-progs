@@ -1,0 +1,22 @@
+--- btrfs-progs-v3.19.1/Makefile.in~	2015-04-28 13:55:44.074889782 +0200
++++ btrfs-progs-v3.19.1/Makefile.in	2015-04-28 13:55:46.220885051 +0200
+@@ -167,6 +167,8 @@ test: btrfs btrfs-convert btrfs-image bt
+
+ test: test-fsck test-convert
+ 
++extra: $(progs_extra)
++
+ #
+ # NOTE: For static compiles, you need to have all the required libs
+ # 	static equivalent available
+@@ -330,6 +332,10 @@ install: $(libs) $(progs_install) $(INST
+ 	$(INSTALL) -m755 -d $(DESTDIR)$(incdir)
+ 	$(INSTALL) -m644 $(headers) $(DESTDIR)$(incdir)
+ 
++install-extra: $(progs_extra) $(INSTALLDIRS)
++	$(INSTALL) -m755 -d $(DESTDIR)$(bindir)
++	$(INSTALL) $(progs_extra) $(DESTDIR)$(bindir)
++
+ install-static: $(progs_static) $(INSTALLDIRS)
+ 	for p in $(progs_static) ; do \
+ 		$(INSTALL) -D -m755 $$p $(DESTDIR)$(bindir)/`basename $$p .static` ; \
