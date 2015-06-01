@@ -7,7 +7,7 @@
 %define devname %mklibname -d btrfs
 
 Name:		btrfs-progs
-Version:	3.19.1
+Version:	4.0.1
 Release:	1
 Summary:	Userspace programs for btrfs
 
@@ -19,7 +19,7 @@ Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
 Patch1:		btrfs-init-dev-list.patch
-Patch2:		btrfs-progs-v3.19.1-build-extra_progs-rule.patch
+Patch2:		btrfs-progs-v4.0.1-build-extra_progs-rule.patch
 
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc

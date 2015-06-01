@@ -1,8 +1,8 @@
 --- btrfs-progs-v3.19.1/Makefile.in~	2015-04-28 13:55:44.074889782 +0200
 +++ btrfs-progs-v3.19.1/Makefile.in	2015-04-28 13:55:46.220885051 +0200
 @@ -167,6 +167,8 @@ test: btrfs btrfs-convert btrfs-image bt
- 		bash tests/$$t || exit 1; \
- 	done
+
+ test: test-fsck test-convert
  
 +extra: $(progs_extra)
 +
