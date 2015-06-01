@@ -1,0 +1,20 @@
+--- btrfs-progs-v4.0.1/mkfs.c.orig	2015-06-01 14:58:15.391757251 +0100
++++ btrfs-progs-v4.0.1/mkfs.c	2015-06-01 14:59:00.034757755 +0100
+@@ -979,7 +979,7 @@
+  */
+ static u64 global_total_size;
+ static int ftw_add_entry_size(const char *fpath, const struct stat *st,
+-			      int type)
++			      int type, struct FTW *ftwbuf)
+ {
+ 	if (type == FTW_F || type == FTW_D)
+ 		global_total_size += round_up(st->st_size, 4096);
+@@ -1002,7 +1002,7 @@
+ 			allocated_meta_size / default_chunk_size;
+ 
+ 	global_total_size = 0;
+-	ret = ftw(dir_name, ftw_add_entry_size, 10);
++	ret = nftw(dir_name, ftw_add_entry_size, 10, 0);
+ 	dir_size = global_total_size;
+ 	if (ret < 0) {
+ 		fprintf(stderr, "ftw subdir walk of '%s' failed: %s\n",

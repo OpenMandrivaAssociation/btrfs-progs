@@ -20,7 +20,8 @@ Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
 Patch1:		btrfs-init-dev-list.patch
 Patch2:		btrfs-progs-v4.0.1-build-extra_progs-rule.patch
-
+# use nftw rather than obsolescent ftw call
+Patch3:		btrfs-progs-v4.0.1-nftw.patch
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc
 BuildRequires:	lzo-devel
@@ -95,9 +96,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 
 %prep
 %setup -q -n %{name}-v%{version}
-%patch0 -p1 -b .fsck~
-%patch1 -p1 -b .initdevlst~
-%patch2 -p1 -b .extra_progs~
+%apply_patches
 
 %if %{with uclibc}
 mkdir -p .uclibc
