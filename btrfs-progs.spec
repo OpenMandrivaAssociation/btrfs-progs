@@ -8,7 +8,7 @@
 
 Name:		btrfs-progs
 Version:	4.0.1
-Release:	1
+Release:	2
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
@@ -36,6 +36,13 @@ BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
 %if %{with uclibc}
 BuildRequires:	uClibc-devel
+BuildRequires:	uclibc-acl-devel
+BuildRequires:	uclibc-lzo-devel
+BuildRequires:	uclibc-jpeg-devel
+BuildRequires:	uclibc-libblkid-devel
+BuildRequires:	uclibc-ext2fs-devel
+BuildRequires:	uclibc-libuuid-devel
+BuildRequires:	uclibc-zlib-devel
 %endif
 
 %description
@@ -79,6 +86,18 @@ Group:		System/Libraries
 %description -n	uclibc-%{libname}
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
+
+%package -n	uclibc-%{devname}
+Summary:	Development headers & libraries for btrfs
+Group:		Development/C
+Provides:	uclibc-btrfs-devel = %{EVRD}
+Requires:	%{devname} = %{EVRD}
+Requires:	uclibc-%{libname} = %{EVRD}
+Conflicts:		%{devname} < 4.0.1-2
+
+%description -n	uclibc-%{devname}
+This package contains headers & libraries for developing programs to create,
+check, modify or correct any inconsistiencies in the btrfs filesystem.
 %endif
 
 %package -n	%{devname}
@@ -86,9 +105,6 @@ Summary:	Development headers & libraries for btrfs
 Group:		Development/C
 Provides:	btrfs-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
-%if %{with uclibc}
-Requires:	uclibc-%{libname} = %{EVRD}
-%endif
 
 %description -n	%{devname}
 This package contains headers & libraries for developing programs to create,
@@ -214,12 +230,12 @@ find %{buildroot} -name \*.a -delete
 %if %{with uclibc}
 %files -n uclibc-%{libname}
 %{uclibc_root}/%{_lib}/libbtrfs.so.%{major}*
+
+%files -n uclibc-%{devname}
+%{uclibc_root}%{_libdir}/libbtrfs.so
 %endif
 
 %files -n %{devname}
 %{_libdir}/libbtrfs.so
-%if %{with uclibc}
-%{uclibc_root}%{_libdir}/libbtrfs.so
-%endif
 %dir %{_includedir}/btrfs
 %{_includedir}/btrfs/*
