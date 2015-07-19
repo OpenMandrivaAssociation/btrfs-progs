@@ -8,7 +8,7 @@
 
 Name:		btrfs-progs
 Version:	4.0.1
-Release:	2
+Release:	3
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
