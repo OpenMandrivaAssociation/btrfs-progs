@@ -1,4 +1,4 @@
-%bcond_without uclibc
+%bcond_with uclibc
 
 %define _root_sbindir /sbin
 
@@ -8,7 +8,7 @@
 
 Name:		btrfs-progs
 Version:	4.0.1
-Release:	3
+Release:	4
 Summary:	Userspace programs for btrfs
 
 Group:		System/Kernel and hardware
