@@ -1,20 +1,15 @@
-%bcond_with uclibc
-
-%define _root_sbindir /sbin
-
 %define major 0
 %define libname %mklibname btrfs %{major}
 %define devname %mklibname -d btrfs
 
-Name:		btrfs-progs
-Version:	4.0.1
-Release:	4
 Summary:	Userspace programs for btrfs
-
+Name:		btrfs-progs
+Version:	4.4.1
+Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
-Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.xz
+Source0:	https://github.com/kdave/btrfs-progs/archive/%{name}-%{version}.tar.gz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
@@ -24,6 +19,8 @@ Patch2:		btrfs-progs-v4.0.1-build-extra_progs-rule.patch
 Patch3:		btrfs-progs-v4.0.1-nftw.patch
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc
+BuildRequires:	docbook-dtd45-xml
+BuildRequires:	docbook-style-xsl
 BuildRequires:	lzo-devel
 BuildRequires:	gd-devel
 BuildRequires:	jpeg-devel
@@ -34,16 +31,6 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
-%if %{with uclibc}
-BuildRequires:	uClibc-devel
-BuildRequires:	uclibc-acl-devel
-BuildRequires:	uclibc-lzo-devel
-BuildRequires:	uclibc-jpeg-devel
-BuildRequires:	uclibc-libblkid-devel
-BuildRequires:	uclibc-ext2fs-devel
-BuildRequires:	uclibc-libuuid-devel
-BuildRequires:	uclibc-zlib-devel
-%endif
 
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
@@ -60,16 +47,6 @@ This package contains the following extra btrfs utils:
 * btrfs-fragments
 * btrfs-select-super
 
-%if %{with uclibc}
-%package -n	uclibc-%{name}
-Summary:	Userspace programs for btrfs (uClibc build)
-Group:		System/Kernel and hardware
-
-%description -n uclibc-%{name}
-The btrfs-progs package provides all the userspace programs needed to create,
-check, modify and correct any inconsistencies in the btrfs filesystem.
-%endif
-
 %package -n	%{libname}
 Summary:	Library for btrfs
 Group:		System/Libraries
@@ -77,28 +54,6 @@ Group:		System/Libraries
 %description -n	%{libname}
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
-
-%if %{with uclibc}
-%package -n	uclibc-%{libname}
-Summary:	Library for btrfs (uClibc build)
-Group:		System/Libraries
-
-%description -n	uclibc-%{libname}
-This package contains libraries for creating, checking, modifying and
-correcting any inconsistiencies in the btrfs filesystem.
-
-%package -n	uclibc-%{devname}
-Summary:	Development headers & libraries for btrfs
-Group:		Development/C
-Provides:	uclibc-btrfs-devel = %{EVRD}
-Requires:	%{devname} = %{EVRD}
-Requires:	uclibc-%{libname} = %{EVRD}
-Conflicts:		%{devname} < 4.0.1-2
-
-%description -n	uclibc-%{devname}
-This package contains headers & libraries for developing programs to create,
-check, modify or correct any inconsistiencies in the btrfs filesystem.
-%endif
 
 %package -n	%{devname}
 Summary:	Development headers & libraries for btrfs
@@ -114,42 +69,21 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 %setup -q -n %{name}-v%{version}
 %apply_patches
 
-%if %{with uclibc}
-mkdir -p .uclibc
-cp -a * .uclibc
-%endif
-
 %build
-%if %{with uclibc}
-pushd .uclibc
-CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" \
-%uclibc_configure	--bindir=%{uclibc_root}%{_root_sbindir} \
-			--libdir=%{uclibc_root}/%{_lib} \
-			--disable-documentation
-%make V=1 all btrfs-select-super btrfs-calc-size btrfs-corrupt-block
-popd
-%endif
+./autogen.sh
+%configure \
+	--bindir=/sbin \
+	--libdir=/%{_lib}
 
-CFLAGS="%{optflags} -Wstrict-aliasing=3" \
-%configure		--bindir=%{_root_sbindir} \
-			--libdir=/%{_lib}
-%make V=1 all extra
+%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}"
 
 %install
 %makeinstall_std install-extra
-install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}%{_root_sbindir}
+install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}/sbin
 
 rm %{buildroot}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
-
-%if %{with uclibc}
-%makeinstall_std -C .uclibc
-install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}%{uclibc_root}%{_root_sbindir}
-rm %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so
-mkdir -p %{buildroot}%{uclibc_root}%{_libdir}
-ln -sr %{buildroot}%{uclibc_root}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/libbtrfs.so
-%endif
 
 install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 
@@ -157,18 +91,18 @@ find %{buildroot} -name \*.a -delete
 
 %files
 %doc INSTALL
-%{_root_sbindir}/btrfs
-%{_root_sbindir}/btrfs-convert
-%{_root_sbindir}/btrfs-debug-tree
-%{_root_sbindir}/btrfs-find-root
-%{_root_sbindir}/btrfs-image
-%{_root_sbindir}/btrfs-map-logical
-%{_root_sbindir}/btrfs-show-super
-%{_root_sbindir}/btrfs-zero-log
-%{_root_sbindir}/btrfsck
-%{_root_sbindir}/btrfstune
-%{_root_sbindir}/fsck.btrfs
-%{_root_sbindir}/mkfs.btrfs
+/sbin/btrfs
+/sbin/btrfs-convert
+/sbin/btrfs-debug-tree
+/sbin/btrfs-find-root
+/sbin/btrfs-image
+/sbin/btrfs-map-logical
+/sbin/btrfs-show-super
+/sbin/btrfs-zero-log
+/sbin/btrfsck
+/sbin/btrfstune
+/sbin/fsck.btrfs
+/sbin/mkfs.btrfs
 %{_mandir}/man5/btrfs.5*
 %{_mandir}/man8/btrfs.8*
 %{_mandir}/man8/btrfs-balance.8*
@@ -200,40 +134,13 @@ find %{buildroot} -name \*.a -delete
 %{_datadir}/bash-completion/completions/btrfs
 
 %files extra
-%{_root_sbindir}/btrfs-calc-size
-%{_root_sbindir}/btrfs-corrupt-block
-%{_root_sbindir}/btrfs-fragments
-%{_root_sbindir}/btrfs-select-super
-
-%if %{with uclibc}
-%files -n uclibc-%{name}
-%{uclibc_root}%{_root_sbindir}/btrfs
-%{uclibc_root}%{_root_sbindir}/btrfs-calc-size
-%{uclibc_root}%{_root_sbindir}/btrfs-convert
-%{uclibc_root}%{_root_sbindir}/btrfs-corrupt-block
-%{uclibc_root}%{_root_sbindir}/btrfs-debug-tree
-%{uclibc_root}%{_root_sbindir}/btrfs-find-root
-%{uclibc_root}%{_root_sbindir}/btrfs-image
-%{uclibc_root}%{_root_sbindir}/btrfs-map-logical
-%{uclibc_root}%{_root_sbindir}/btrfs-select-super
-%{uclibc_root}%{_root_sbindir}/btrfs-show-super
-%{uclibc_root}%{_root_sbindir}/btrfs-zero-log
-%{uclibc_root}%{_root_sbindir}/btrfsck
-%{uclibc_root}%{_root_sbindir}/btrfstune
-%{uclibc_root}%{_root_sbindir}/fsck.btrfs
-%{uclibc_root}%{_root_sbindir}/mkfs.btrfs
-%endif
+/sbin/btrfs-calc-size
+/sbin/btrfs-corrupt-block
+/sbin/btrfs-fragments
+/sbin/btrfs-select-super
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
-
-%if %{with uclibc}
-%files -n uclibc-%{libname}
-%{uclibc_root}/%{_lib}/libbtrfs.so.%{major}*
-
-%files -n uclibc-%{devname}
-%{uclibc_root}%{_libdir}/libbtrfs.so
-%endif
 
 %files -n %{devname}
 %{_libdir}/libbtrfs.so
