@@ -36,18 +36,18 @@ BuildRequires:	pkgconfig(zlib)
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
 
-%package	extra
+%package extra
 Summary:	Additional userspace programs for btrfs
 Group:		System/Kernel and hardware
 
-%description	extra
+%description extra
 This package contains the following extra btrfs utils:
 * btrfs-calc-size
 * btrfs-corrupt-block
 * btrfs-fragments
 * btrfs-select-super
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Library for btrfs
 Group:		System/Libraries
 
@@ -55,7 +55,7 @@ Group:		System/Libraries
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Development headers & libraries for btrfs
 Group:		Development/C
 Provides:	btrfs-devel = %{EVRD}
@@ -66,7 +66,7 @@ This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
 %prep
-%setup -q -n %{name}-v%{version}
+%setup -q
 %apply_patches
 
 %build
