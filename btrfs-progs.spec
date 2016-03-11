@@ -72,8 +72,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 	--bindir=/sbin \
 	--libdir=/%{_lib}
 
-%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}"
-%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}" progs_extra
+%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}" all progs_extra
 
 %install
 %makeinstall_std
