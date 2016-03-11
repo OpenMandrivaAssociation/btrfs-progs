@@ -41,7 +41,6 @@ Group:		System/Kernel and hardware
 This package contains the following extra btrfs utils:
 * btrfs-calc-size
 * btrfs-corrupt-block
-* btrfs-fragments
 * btrfs-select-super
 
 %package -n %{libname}
@@ -134,7 +133,6 @@ find %{buildroot} -name \*.a -delete
 %files extra
 /sbin/btrfs-calc-size
 /sbin/btrfs-corrupt-block
-/sbin/btrfs-fragments
 /sbin/btrfs-select-super
 
 %files -n %{libname}
