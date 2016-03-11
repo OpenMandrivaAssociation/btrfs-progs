@@ -13,10 +13,7 @@ Source0:	https://github.com/kdave/btrfs-progs/archive/%{name}-%{version}.tar.gz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
-Patch1:		btrfs-init-dev-list.patch
-Patch2:		btrfs-progs-v4.0.1-build-extra_progs-rule.patch
-# use nftw rather than obsolescent ftw call
-Patch3:		btrfs-progs-v4.0.1-nftw.patch
+Patch1:		btrfs-progs-v4.4.1-pic.patch
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc
 BuildRequires:	docbook-dtd45-xml
