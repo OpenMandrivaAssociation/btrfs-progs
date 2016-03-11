@@ -72,7 +72,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 	--bindir=/sbin \
 	--libdir=/%{_lib}
 
-%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}"
+%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}" all progs-extra
 
 %install
 %makeinstall_std install-extra
@@ -119,6 +119,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/btrfs-replace.8*
 %{_mandir}/man8/btrfs-rescue.8*
 %{_mandir}/man8/btrfs-restore.8*
+%{_mandir}/man8/btrfs-select-super.8*
 %{_mandir}/man8/btrfs-scrub.8*
 %{_mandir}/man8/btrfs-send.8*
 %{_mandir}/man8/btrfs-show-super.8*
