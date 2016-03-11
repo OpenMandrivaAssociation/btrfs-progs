@@ -75,7 +75,7 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 %make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}"
 
 %install
-%makeinstall_std install-extra
+%makeinstall_std
 install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}/sbin
 
 rm %{buildroot}/%{_lib}/libbtrfs.so
