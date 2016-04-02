@@ -4,12 +4,12 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	4.4.1
+Version:	4.5.1
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
-Source0:	https://github.com/kdave/btrfs-progs/archive/%{name}-%{version}.tar.gz
+Source0:	https://github.com/kdave/btrfs-progs/archive/v%{version}.tar.gz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
