@@ -6,24 +6,22 @@
 %define libname %mklibname btrfs %{major}
 %define devname %mklibname -d btrfs
 
-Name:		btrfs-progs
-Version:	4.0.1
-Release:	0.1
 Summary:	Userspace programs for btrfs
-
+Name:		btrfs-progs
+Version:	4.5.1
+Release:	0.1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
-Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.xz
+Source0:	https://github.com/kdave/btrfs-progs/archive/v%{version}.tar.gz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
-Patch1:		btrfs-init-dev-list.patch
-Patch2:		btrfs-progs-v4.0.1-build-extra_progs-rule.patch
-# use nftw rather than obsolescent ftw call
-Patch3:		btrfs-progs-v4.0.1-nftw.patch
+Patch1:		btrfs-progs-v4.4.1-pic.patch
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc
+BuildRequires:	docbook-dtd45-xml
+BuildRequires:	docbook-style-xsl
 BuildRequires:	lzo-devel
 BuildRequires:	gd-devel
 BuildRequires:	jpeg-devel
@@ -42,19 +40,18 @@ BuildRequires:	uClibc-devel
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
 
-%package	extra
+%package extra
 Summary:	Additional userspace programs for btrfs
 Group:		System/Kernel and hardware
 
-%description	extra
+%description extra
 This package contains the following extra btrfs utils:
 * btrfs-calc-size
 * btrfs-corrupt-block
-* btrfs-fragments
 * btrfs-select-super
 
 %if %{with uclibc}
-%package -n	uclibc-%{name}
+%package -n uclibc-%{name}
 Summary:	Userspace programs for btrfs (uClibc build)
 Group:		System/Kernel and hardware
 
@@ -63,7 +60,7 @@ The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
 %endif
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Library for btrfs
 Group:		System/Libraries
 
@@ -72,16 +69,16 @@ This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
 
 %if %{with uclibc}
-%package -n	uclibc-%{libname}
+%package -n uclibc-%{libname}
 Summary:	Library for btrfs (uClibc build)
 Group:		System/Libraries
 
-%description -n	uclibc-%{libname}
+%description -n uclibc-%{libname}
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
 %endif
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Development headers & libraries for btrfs
 Group:		Development/C
 Provides:	btrfs-devel = %{EVRD}
@@ -95,7 +92,7 @@ This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
 %prep
-%setup -q -n %{name}-v%{version}
+%setup -q
 %apply_patches
 
 %if %{with uclibc}
@@ -106,22 +103,25 @@ cp -a * .uclibc
 %build
 %if %{with uclibc}
 pushd .uclibc
+./autogen.sh
 CFLAGS="%{uclibc_cflags} -Wstrict-aliasing=3" \
-%uclibc_configure	--bindir=%{uclibc_root}%{_root_sbindir} \
-			--libdir=%{uclibc_root}/%{_lib} \
-			--disable-documentation
+%uclibc_configure      --bindir=%{uclibc_root}%{_root_sbindir} \
+                       --libdir=%{uclibc_root}/%{_lib} \
+                       --disable-documentation
 %make V=1 all btrfs-select-super btrfs-calc-size btrfs-corrupt-block
 popd
 %endif
 
+./autogen.sh
 CFLAGS="%{optflags} -Wstrict-aliasing=3" \
-%configure		--bindir=%{_root_sbindir} \
-			--libdir=/%{_lib}
-%make V=1 all extra
+%configure             --bindir=%{_root_sbindir} \
+                       --libdir=/%{_lib}
+%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}"
+
 
 %install
-%makeinstall_std install-extra
-install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}%{_root_sbindir}
+%makeinstall_std
+install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}/sbin
 
 rm %{buildroot}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{_libdir}
@@ -172,6 +172,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/btrfs-replace.8*
 %{_mandir}/man8/btrfs-rescue.8*
 %{_mandir}/man8/btrfs-restore.8*
+%{_mandir}/man8/btrfs-select-super.8*
 %{_mandir}/man8/btrfs-scrub.8*
 %{_mandir}/man8/btrfs-send.8*
 %{_mandir}/man8/btrfs-show-super.8*
@@ -186,7 +187,6 @@ find %{buildroot} -name \*.a -delete
 %files extra
 %{_root_sbindir}/btrfs-calc-size
 %{_root_sbindir}/btrfs-corrupt-block
-%{_root_sbindir}/btrfs-fragments
 %{_root_sbindir}/btrfs-select-super
 
 %if %{with uclibc}
