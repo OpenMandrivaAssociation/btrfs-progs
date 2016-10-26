@@ -4,12 +4,12 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	4.5.1
+Version:	4.8.2
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
-Source0:	https://github.com/kdave/btrfs-progs/archive/v%{version}.tar.gz
+Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.gz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
@@ -86,7 +86,6 @@ install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completio
 find %{buildroot} -name \*.a -delete
 
 %files
-%doc INSTALL
 /sbin/btrfs
 /sbin/btrfs-convert
 /sbin/btrfs-debug-tree
