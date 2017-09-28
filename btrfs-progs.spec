@@ -120,7 +120,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/fsck.btrfs.8*
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_datadir}/bash-completion/completions/btrfs
-%{_udevrulesdir}/64-btrfs-dm.rules
+#/lib/udev/rules.d/64-btrfs-dm.rules
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
