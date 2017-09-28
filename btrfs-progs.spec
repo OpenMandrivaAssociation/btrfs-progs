@@ -65,7 +65,7 @@ export UDEVDIR=%{_udevrulesdir}
 	--libdir=/%{_lib} \
 	--enable-zstd
 
-%make UDEVDIR=%{_udevrulesdir}
+%make udevdir="%{_udevrulesdir}"
 
 %install
 %makeinstall_std
