@@ -27,6 +27,7 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(libsystemd)
 
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
