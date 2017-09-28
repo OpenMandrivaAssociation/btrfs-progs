@@ -4,7 +4,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	4.8.2
+Version:	4.13.1
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -13,7 +13,6 @@ Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
-Patch1:		btrfs-progs-v4.4.1-pic.patch
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc
 BuildRequires:	docbook-dtd45-xml
@@ -32,16 +31,6 @@ BuildRequires:	pkgconfig(zlib)
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
-
-%package extra
-Summary:	Additional userspace programs for btrfs
-Group:		System/Kernel and hardware
-
-%description extra
-This package contains the following extra btrfs utils:
-* btrfs-calc-size
-* btrfs-corrupt-block
-* btrfs-select-super
 
 %package -n %{libname}
 Summary:	Library for btrfs
@@ -71,12 +60,10 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 	--bindir=/sbin \
 	--libdir=/%{_lib}
 
-%make CFLAGS="%{optflags} -include config.h -DBTRFS_FLAT_INCLUDES -D_XOPEN_SOURCE=700" LDFLAGS="%{ldflags}"
+%make
 
 %install
 %makeinstall_std
-install -m755 btrfs-select-super btrfs-calc-size btrfs-corrupt-block %{buildroot}/sbin
-
 rm %{buildroot}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
@@ -92,10 +79,10 @@ find %{buildroot} -name \*.a -delete
 /sbin/btrfs-find-root
 /sbin/btrfs-image
 /sbin/btrfs-map-logical
-/sbin/btrfs-show-super
 /sbin/btrfs-zero-log
 /sbin/btrfsck
 /sbin/btrfstune
+/sbin/btrfs-select-super
 /sbin/fsck.btrfs
 /sbin/mkfs.btrfs
 %{_mandir}/man5/btrfs.5*
@@ -128,16 +115,13 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/fsck.btrfs.8*
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_datadir}/bash-completion/completions/btrfs
-
-%files extra
-/sbin/btrfs-calc-size
-/sbin/btrfs-corrupt-block
-/sbin/btrfs-select-super
+/lib/udev/rules.d/64-btrfs-dm.rules
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
 
 %files -n %{devname}
+%doc INSTALL
 %{_libdir}/libbtrfs.so
 %dir %{_includedir}/btrfs
 %{_includedir}/btrfs/*
