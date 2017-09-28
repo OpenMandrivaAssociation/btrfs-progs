@@ -9,7 +9,7 @@ Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
-Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.xz
+Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-%{version}.tar.xz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
@@ -27,6 +27,7 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(libzstd)
 BuildRequires:	pkgconfig(libsystemd)
 
 %description
@@ -56,12 +57,15 @@ check, modify or correct any inconsistiencies in the btrfs filesystem.
 %apply_patches
 
 %build
+export UDEVDIR=%{_udevrulesdir}
+
 ./autogen.sh
 %configure \
 	--bindir=/sbin \
-	--libdir=/%{_lib}
+	--libdir=/%{_lib} \
+	--enable-zstd
 
-%make
+%make UDEVDIR=%{_udevrulesdir}
 
 %install
 %makeinstall_std
@@ -116,7 +120,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/fsck.btrfs.8*
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_datadir}/bash-completion/completions/btrfs
-/lib/udev/rules.d/64-btrfs-dm.rules
+%{_udevrulesdir}/64-btrfs-dm.rules
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
