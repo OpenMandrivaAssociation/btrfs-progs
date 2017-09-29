@@ -5,7 +5,7 @@
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
 Version:	4.13.1
-Release:	1
+Release:	2
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
@@ -75,6 +75,10 @@ ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtr
 
 install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 
+# (tpg) somehow makefile does not want to install this
+install -m755 -d %{buildroot}%{_udevrulesdir}
+install -m644 64-btrfs-dm.rules %{buildroot}%{_udevrulesdir}
+	
 find %{buildroot} -name \*.a -delete
 
 %files
@@ -120,7 +124,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/fsck.btrfs.8*
 %{_mandir}/man8/mkfs.btrfs.8*
 %{_datadir}/bash-completion/completions/btrfs
-#/lib/udev/rules.d/64-btrfs-dm.rules
+%{_udevrulesdir}/64-btrfs-dm.rules
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
