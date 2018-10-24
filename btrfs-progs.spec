@@ -55,6 +55,8 @@ Requires:	%{libname} = %{EVRD}
 This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
+%libpackage btrfsutil 1
+
 %prep
 %autosetup -n %{name}-v%{version} -p1
 
@@ -128,6 +130,7 @@ find %{buildroot} -name \*.a -delete
 
 %files -n %{devname}
 %doc INSTALL
-%{_libdir}/libbtrfs.so
+%{_libdir}/*.so
 %dir %{_includedir}/btrfs
 %{_includedir}/btrfs/*
+%{_includedir}/*.h
