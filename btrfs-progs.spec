@@ -55,7 +55,7 @@ Requires:	%{libname} = %{EVRD}
 This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
-%libpackage btrfsutil 1
+%libpackage btrfsutil %{major}
 
 %prep
 %autosetup -n %{name}-v%{version} -p1
