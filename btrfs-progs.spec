@@ -86,11 +86,9 @@ find %{buildroot} -name \*.a -delete
 %files
 /sbin/btrfs
 /sbin/btrfs-convert
-/sbin/btrfs-debug-tree
 /sbin/btrfs-find-root
 /sbin/btrfs-image
 /sbin/btrfs-map-logical
-/sbin/btrfs-zero-log
 /sbin/btrfsck
 /sbin/btrfstune
 /sbin/btrfs-select-super
@@ -101,7 +99,6 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/btrfs-balance.8*
 %{_mandir}/man8/btrfs-convert.8*
 %{_mandir}/man8/btrfs-check.8*
-%{_mandir}/man8/btrfs-debug-tree.8*
 %{_mandir}/man8/btrfs-device.8*
 %{_mandir}/man8/btrfs-filesystem.8*
 %{_mandir}/man8/btrfs-find-root.8*
@@ -118,9 +115,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/btrfs-select-super.8*
 %{_mandir}/man8/btrfs-scrub.8*
 %{_mandir}/man8/btrfs-send.8*
-%{_mandir}/man8/btrfs-show-super.8*
 %{_mandir}/man8/btrfs-subvolume.8*
-%{_mandir}/man8/btrfs-zero-log.8*
 %{_mandir}/man8/btrfsck.8*
 %{_mandir}/man8/btrfstune.8*
 %{_mandir}/man8/fsck.btrfs.8*
