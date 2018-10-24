@@ -4,7 +4,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	4.14.1
+Version:	4.17
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -29,6 +29,7 @@ BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libzstd)
 BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	systemd-macros
 
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
@@ -53,8 +54,7 @@ This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
 %prep
-%setup -qn %{name}-v%{version}
-%apply_patches
+%autosetup -n %{name}-v%{version} -p1
 
 %build
 export UDEVDIR=%{_udevrulesdir}
@@ -65,10 +65,10 @@ export UDEVDIR=%{_udevrulesdir}
 	--libdir=/%{_lib} \
 	--enable-zstd
 
-%make udevdir="%{_udevrulesdir}"
+%make_build udevdir="%{_udevrulesdir}"
 
 %install
-%makeinstall_std
+%make_install
 rm %{buildroot}/%{_lib}/libbtrfs.so
 mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
