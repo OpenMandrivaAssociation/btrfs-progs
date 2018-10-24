@@ -30,6 +30,7 @@ BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libzstd)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(python)
+BuildRequires:	python3egg(setuptools)
 BuildRequires:	systemd-macros
 
 %description
