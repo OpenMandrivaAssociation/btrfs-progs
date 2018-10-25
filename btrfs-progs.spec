@@ -138,7 +138,7 @@ find %{buildroot} -name \*.a -delete
 /%{_lib}/libbtrfs.so.%{major}*
 
 %files -n %{libutilname}
-%{_libdir}/libbtrfsutil.so.%{majorutil}*
+%{_libdir}/libbtrfsutil.so.*
 
 %files -n %{devname}
 %doc INSTALL
