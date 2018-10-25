@@ -1,5 +1,7 @@
 %define major 0
 %define libname %mklibname btrfs %{major}
+%define majorutil 1
+%define libutilname %mklibname btrfsutil %{majorutil}
 %define devname %mklibname -d btrfs
 
 Summary:	Userspace programs for btrfs
@@ -28,7 +30,7 @@ BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libzstd)
-BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python3egg(setuptools)
 BuildRequires:	systemd-macros
@@ -50,12 +52,19 @@ Summary:	Development headers & libraries for btrfs
 Group:		Development/C
 Provides:	btrfs-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
+Requires:	%{libutilname} = %{EVRD}
 
 %description -n	%{devname}
 This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
-%libpackage btrfsutil %{major}
+%package -n     %{libutilname}
+Summary:	Util library for btrfs
+Group:		System/Libraries
+
+%description -n %{libutilname}
+This package contains the util library needed to run programs dynamically
+linked with btrfs
 
 %prep
 %autosetup -n %{name}-v%{version} -p1
@@ -127,6 +136,9 @@ find %{buildroot} -name \*.a -delete
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
+
+%files -n %{libutilname}
+%{_libdir}/libbtrfsutil.so.%{majorutil}*
 
 %files -n %{devname}
 %doc INSTALL
