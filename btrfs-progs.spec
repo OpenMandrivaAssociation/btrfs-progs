@@ -82,9 +82,12 @@ export UDEVDIR=%{_udevrulesdir}
 
 %install
 %make_install
-rm %{buildroot}/%{_lib}/libbtrfs.so
+rm -f %{buildroot}/%{_lib}/libbtrfs.so
+rm -f %{buildroot}/%{_lib}/libbtrfsutil.so
+
 mkdir -p %{buildroot}%{_libdir}
 ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
+ln -sr %{buildroot}/%{_lib}/libbtrfsutil.so.%{majorutil}.* %{buildroot}%{_libdir}/libbtrfsutil.so
 
 install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 
