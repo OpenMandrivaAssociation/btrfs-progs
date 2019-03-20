@@ -3,6 +3,7 @@
 %define majorutil 1
 %define libutilname %mklibname btrfsutil %{majorutil}
 %define devname %mklibname -d btrfs
+%bcond_with	docs
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
@@ -17,12 +18,14 @@ Source1:	btrfs-completion.sh
 Patch0:		btrfs-progs-recognize-fsck.btrfs-like-btrfsck.patch
 BuildRequires:	acl-devel
 BuildRequires:	asciidoc
+%if %{with docs}
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
+BuildRequires:	xmlto
+%endif
 BuildRequires:	lzo-devel
 BuildRequires:	gd-devel
 BuildRequires:	jpeg-devel
-BuildRequires:	xmlto
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(freetype2)
@@ -76,6 +79,9 @@ export UDEVDIR=%{_udevrulesdir}
 %configure \
 	--bindir=/sbin \
 	--libdir=/%{_lib} \
+%if !%{with docs}
+	--disable-documentation \
+%endif
 	--enable-zstd
 
 %make_build udevdir="%{_udevrulesdir}"
@@ -108,6 +114,7 @@ find %{buildroot} -name \*.a -delete
 /sbin/btrfs-select-super
 /sbin/fsck.btrfs
 /sbin/mkfs.btrfs
+%if %{with docs}
 %{_mandir}/man5/btrfs.5*
 %{_mandir}/man8/btrfs.8*
 %{_mandir}/man8/btrfs-balance.8*
@@ -134,6 +141,7 @@ find %{buildroot} -name \*.a -delete
 %{_mandir}/man8/btrfstune.8*
 %{_mandir}/man8/fsck.btrfs.8*
 %{_mandir}/man8/mkfs.btrfs.8*
+%endif
 %{_datadir}/bash-completion/completions/btrfs
 %{_udevrulesdir}/64-btrfs-dm.rules
 
