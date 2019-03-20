@@ -3,7 +3,7 @@
 %define majorutil 1
 %define libutilname %mklibname btrfsutil %{majorutil}
 %define devname %mklibname -d btrfs
-%bcond_with	docs
+%bcond_without	docs
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
