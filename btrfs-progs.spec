@@ -3,12 +3,13 @@
 %define majorutil 1
 %define libutilname %mklibname btrfsutil %{majorutil}
 %define devname %mklibname -d btrfs
+%global optflags %{optflags} -Oz
 %bcond_without	docs
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
 Version:	5.4
-Release:	1
+Release:	2
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
