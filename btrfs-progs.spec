@@ -8,8 +8,8 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.4
-Release:	2
+Version:	5.4.1
+Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
