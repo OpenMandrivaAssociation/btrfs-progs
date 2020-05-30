@@ -8,7 +8,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.6
+Version:	5.6.1
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
