@@ -8,7 +8,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.7
+Version:	5.9
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -101,7 +101,8 @@ install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completio
 install -m755 -d %{buildroot}%{_udevrulesdir}
 install -m644 64-btrfs-dm.rules %{buildroot}%{_udevrulesdir}
 
-find %{buildroot} -name \*.a -delete
+mkdir -p %{buildroot}%{_libdir}
+mv %{buildroot}/%{_lib}/pkgconfig %{buildroot}%{_libdir}
 
 %files
 /sbin/btrfs
@@ -157,3 +158,4 @@ find %{buildroot} -name \*.a -delete
 %dir %{_includedir}/btrfs
 %{_includedir}/btrfs/*
 %{_includedir}/*.h
+%{_libdir}/pkgconfig/*
