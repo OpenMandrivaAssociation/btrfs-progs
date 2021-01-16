@@ -5,15 +5,16 @@
 %define devname %mklibname -d btrfs
 %global optflags %{optflags} -Oz
 %bcond_without	docs
+%define beta rc1
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.9
+Version:	5.10
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
-Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/%{name}-v%{version}.tar.xz
+Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/%{name}-v%{version}%{?beta:-%{beta}}.tar.xz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
 BuildRequires:	acl-devel
@@ -70,7 +71,7 @@ This package contains the util library needed to run programs dynamically
 linked with btrfs
 
 %prep
-%autosetup -n %{name}-v%{version} -p1
+%autosetup -n %{name}-v%{version}%{?beta:-%{beta}} -p1
 
 %build
 export UDEVDIR=%{_udevrulesdir}
