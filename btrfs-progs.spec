@@ -5,7 +5,7 @@
 %define devname %mklibname -d btrfs
 %global optflags %{optflags} -Oz
 %bcond_without	docs
-%define beta rc1
+#define beta rc1
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
