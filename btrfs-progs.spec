@@ -9,7 +9,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.16
+Version:	5.16.1
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -146,6 +146,7 @@ mv %{buildroot}/%{_lib}/pkgconfig %{buildroot}%{_libdir}
 %endif
 %{_datadir}/bash-completion/completions/btrfs
 %{_udevrulesdir}/64-btrfs-dm.rules
+%{_udevrulesdir}/64-btrfs-zoned.rules
 
 %files -n %{libname}
 /%{_lib}/libbtrfs.so.%{major}*
