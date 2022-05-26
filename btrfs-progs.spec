@@ -4,29 +4,29 @@
 %define libutilname %mklibname btrfsutil %{majorutil}
 %define devname %mklibname -d btrfs
 %global optflags %{optflags} -Oz
-%bcond_without	docs
-#define beta rc1
+
+%bcond_without docs
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
 Version:	5.16.2
-Release:	1
+Release:	2
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
 Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/%{name}-v%{version}%{?beta:-%{beta}}.tar.xz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
-BuildRequires:	acl-devel
+BuildRequires:	pkgconfig(libacl)
 BuildRequires:	asciidoc
 %if %{with docs}
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	xmlto
 %endif
-BuildRequires:	lzo-devel
-BuildRequires:	gd-devel
-BuildRequires:	jpeg-devel
+BuildRequires:	pkgconfig(lzo2)
+BuildRequires:	pkgconfig(gdlib)
+BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(freetype2)
@@ -37,7 +37,7 @@ BuildRequires:	pkgconfig(libzstd)
 BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python3egg(setuptools)
-BuildRequires:	systemd-macros
+BuildRequires:	systemd-rpm-macros
 
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
@@ -47,7 +47,7 @@ check, modify and correct any inconsistencies in the btrfs filesystem.
 Summary:	Library for btrfs
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 This package contains libraries for creating, checking, modifying and
 correcting any inconsistiencies in the btrfs filesystem.
 
@@ -58,11 +58,11 @@ Provides:	btrfs-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
 Requires:	%{libutilname} = %{EVRD}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package contains headers & libraries for developing programs to create,
 check, modify or correct any inconsistiencies in the btrfs filesystem.
 
-%package -n     %{libutilname}
+%package -n %{libutilname}
 Summary:	Util library for btrfs
 Group:		System/Libraries
 
@@ -78,8 +78,6 @@ export UDEVDIR=%{_udevrulesdir}
 
 ./autogen.sh
 %configure \
-	--bindir=/sbin \
-	--libdir=/%{_lib} \
 %if !%{with docs}
 	--disable-documentation \
 %endif
@@ -89,12 +87,6 @@ export UDEVDIR=%{_udevrulesdir}
 
 %install
 %make_install
-rm -f %{buildroot}/%{_lib}/libbtrfs.so
-rm -f %{buildroot}/%{_lib}/libbtrfsutil.so
-
-mkdir -p %{buildroot}%{_libdir}
-ln -sr %{buildroot}/%{_lib}/libbtrfs.so.%{major}.* %{buildroot}%{_libdir}/libbtrfs.so
-ln -sr %{buildroot}/%{_lib}/libbtrfsutil.so.%{majorutil}.* %{buildroot}%{_libdir}/libbtrfsutil.so
 
 install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 
@@ -102,57 +94,44 @@ install -p -m644 %{SOURCE1} -D %{buildroot}%{_datadir}/bash-completion/completio
 install -m755 -d %{buildroot}%{_udevrulesdir}
 install -m644 64-btrfs-dm.rules %{buildroot}%{_udevrulesdir}
 
-mkdir -p %{buildroot}%{_libdir}
-mv %{buildroot}/%{_lib}/pkgconfig %{buildroot}%{_libdir}
-
 %files
-/sbin/btrfs
-/sbin/btrfs-convert
-/sbin/btrfs-find-root
-/sbin/btrfs-image
-/sbin/btrfs-map-logical
-/sbin/btrfsck
-/sbin/btrfstune
-/sbin/btrfs-select-super
-/sbin/fsck.btrfs
-/sbin/mkfs.btrfs
+%{_bindir}/*
 %if %{with docs}
-%{_mandir}/man5/btrfs.5*
-%{_mandir}/man8/btrfs.8*
-%{_mandir}/man8/btrfs-balance.8*
-%{_mandir}/man8/btrfs-convert.8*
-%{_mandir}/man8/btrfs-check.8*
-%{_mandir}/man8/btrfs-device.8*
-%{_mandir}/man8/btrfs-filesystem.8*
-%{_mandir}/man8/btrfs-find-root.8*
-%{_mandir}/man8/btrfs-image.8*
-%{_mandir}/man8/btrfs-inspect-internal.8*
-%{_mandir}/man8/btrfs-map-logical.8*
-%{_mandir}/man8/btrfs-property.8*
-%{_mandir}/man8/btrfs-qgroup.8*
-%{_mandir}/man8/btrfs-quota.8*
-%{_mandir}/man8/btrfs-receive.8*
-%{_mandir}/man8/btrfs-replace.8*
-%{_mandir}/man8/btrfs-rescue.8*
-%{_mandir}/man8/btrfs-restore.8*
-%{_mandir}/man8/btrfs-select-super.8*
-%{_mandir}/man8/btrfs-scrub.8*
-%{_mandir}/man8/btrfs-send.8*
-%{_mandir}/man8/btrfs-subvolume.8*
-%{_mandir}/man8/btrfsck.8*
-%{_mandir}/man8/btrfstune.8*
-%{_mandir}/man8/fsck.btrfs.8*
-%{_mandir}/man8/mkfs.btrfs.8*
+%doc %{_mandir}/man5/btrfs.5*
+%doc %{_mandir}/man8/btrfs.8*
+%doc %{_mandir}/man8/btrfs-balance.8*
+%doc %{_mandir}/man8/btrfs-convert.8*
+%doc %{_mandir}/man8/btrfs-check.8*
+%doc %{_mandir}/man8/btrfs-device.8*
+%doc %{_mandir}/man8/btrfs-filesystem.8*
+%doc %{_mandir}/man8/btrfs-find-root.8*
+%doc %{_mandir}/man8/btrfs-image.8*
+%doc %{_mandir}/man8/btrfs-inspect-internal.8*
+%doc %{_mandir}/man8/btrfs-map-logical.8*
+%doc %{_mandir}/man8/btrfs-property.8*
+%doc %{_mandir}/man8/btrfs-qgroup.8*
+%doc %{_mandir}/man8/btrfs-quota.8*
+%doc %{_mandir}/man8/btrfs-receive.8*
+%doc %{_mandir}/man8/btrfs-replace.8*
+%doc %{_mandir}/man8/btrfs-rescue.8*
+%doc %{_mandir}/man8/btrfs-restore.8*
+%doc %{_mandir}/man8/btrfs-select-super.8*
+%doc %{_mandir}/man8/btrfs-scrub.8*
+%doc %{_mandir}/man8/btrfs-send.8*
+%doc %{_mandir}/man8/btrfs-subvolume.8*
+%doc %{_mandir}/man8/btrfsck.8*
+%doc %{_mandir}/man8/btrfstune.8*
+%doc %{_mandir}/man8/fsck.btrfs.8*
+%doc %{_mandir}/man8/mkfs.btrfs.8*
 %endif
 %{_datadir}/bash-completion/completions/btrfs
-%{_udevrulesdir}/64-btrfs-dm.rules
-%{_udevrulesdir}/64-btrfs-zoned.rules
+%{_udevrulesdir}/*.rules
 
 %files -n %{libname}
-/%{_lib}/libbtrfs.so.%{major}*
+%{_libdir}/libbtrfs.so.%{major}*
 
 %files -n %{libutilname}
-/%{_lib}/libbtrfsutil.so.%{majorutil}*
+%{_libdir}/libbtrfsutil.so.%{majorutil}*
 
 %files -n %{devname}
 %doc INSTALL
