@@ -9,8 +9,8 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.16.2
-Release:	3
+Version:	5.18
+Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
@@ -37,6 +37,7 @@ BuildRequires:	pkgconfig(libzstd)
 BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python3egg(setuptools)
+BuildRequires:	python3dist(sphinx)
 BuildRequires:	systemd-rpm-macros
 
 %description
