@@ -9,7 +9,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	5.19
+Version:	6.0
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -75,6 +75,8 @@ linked with btrfs
 %autosetup -n %{name}-v%{version}%{?beta:-%{beta}} -p1
 
 %build
+export CC=gcc
+export CXX=g++
 export UDEVDIR=%{_udevrulesdir}
 
 ./autogen.sh
