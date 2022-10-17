@@ -75,6 +75,9 @@ linked with btrfs
 %autosetup -n %{name}-v%{version}%{?beta:-%{beta}} -p1
 
 %build
+# As of btrfs-progs 6.0, kernel 6.0.2, clang 15.0.2, building
+# btrfs-progs with clang results in a hang while upgrading
+# kernels and while loading the partitions module in calamares
 export CC=gcc
 export CXX=g++
 export UDEVDIR=%{_udevrulesdir}
