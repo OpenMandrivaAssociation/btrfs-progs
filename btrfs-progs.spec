@@ -9,7 +9,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	6.1.2
+Version:	6.2.1
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -81,6 +81,12 @@ linked with btrfs
 export CC=gcc
 export CXX=g++
 export UDEVDIR=%{_udevrulesdir}
+
+# FIXME workaround for crypto bits not compiling with
+# SSE4 optimizations (upstream bug as of 6.2.1)
+if echo %{optflags} |grep -q msse4; then
+	export CFLAGS="%{optflags} -mno-sse4.2 -mno-sse4.1"
+fi
 
 ./autogen.sh
 %configure \
