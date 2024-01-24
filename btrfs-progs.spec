@@ -38,6 +38,7 @@ BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python3egg(setuptools)
 BuildRequires:	python3dist(sphinx)
+BuildRequires:	python3dist(sphinx-rtd-theme)
 BuildRequires:	systemd-rpm-macros
 
 %description
