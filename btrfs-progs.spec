@@ -10,7 +10,7 @@
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
 Version:	6.9
-Release:	1
+Release:	2
 Group:		System/Kernel and hardware
 License:	GPLv2
 URL:		http://btrfs.wiki.kernel.org/
