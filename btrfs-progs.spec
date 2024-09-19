@@ -110,6 +110,7 @@ install -m644 64-btrfs-dm.rules %{buildroot}%{_udevrulesdir}
 %files
 %{_bindir}/*
 %if %{with docs}
+%doc %{_mandir}/man2/btrfs-ioctl.2.*
 %doc %{_mandir}/man5/btrfs.5*
 %doc %{_mandir}/man8/btrfs.8*
 %doc %{_mandir}/man8/btrfs-balance.8*
