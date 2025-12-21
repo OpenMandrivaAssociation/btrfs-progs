@@ -17,6 +17,11 @@ URL:		https://btrfs.wiki.kernel.org/
 Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/%{name}-v%{version}%{?beta:-%{beta}}.tar.xz
 # From http://www.spinics.net/lists/linux-btrfs/msg15899.html
 Source1:	btrfs-completion.sh
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(libacl)
 BuildRequires:	asciidoc
 %if %{with docs}
