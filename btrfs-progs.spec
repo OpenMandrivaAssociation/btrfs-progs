@@ -9,7 +9,7 @@
 
 Summary:	Userspace programs for btrfs
 Name:		btrfs-progs
-Version:	7.0
+Version:	7.1
 Release:	1
 Group:		System/Kernel and hardware
 License:	GPLv2
@@ -78,7 +78,7 @@ This package contains the util library needed to run programs dynamically
 linked with btrfs
 
 %prep
-%autosetup -n %{name}-v%{version}%{?beta:-%{beta}} -p1
+%autosetup -n btrfs-progs-v7.1 -p1
 
 %build
 # As of btrfs-progs 6.0, kernel 6.0.2, clang 15.0.2, building
